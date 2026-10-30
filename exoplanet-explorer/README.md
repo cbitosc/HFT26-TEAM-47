@@ -35,3 +35,7 @@ Missing NASA measurements are `null` and shown as "Not available". Planet images
 ```bash
 cd backend && python -m pytest -q          # includes a live NASA test
 ```
+
+## Phase 3: 3D visualization
+
+The planet detail page shows an interactive three.js scene (React Three Fiber + drei): host star, orbiting planet, orbit path and camera controls. Sizes, orbit radii and orbit speeds use bounded log scaling from NASA values and are **illustrative, not to scale**. Missing values fall back to flagged defaults. Orbits are drawn circular.
