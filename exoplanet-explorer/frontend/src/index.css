@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --color-space-950: #05060d;
+  --color-space-900: #0a0d1c;
+  --color-space-800: #111631;
+  --color-space-700: #1b2246;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  @apply bg-space-950 text-white antialiased;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgb(76 81 191 / 0.18), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 40%, rgb(124 58 237 / 0.08), transparent);
+  background-attachment: fixed;
+}
+
+.panel { @apply rounded-2xl border border-white/5 bg-space-900/70 backdrop-blur; }
+
+.field {
+  @apply w-full rounded-lg border border-white/10 bg-space-800/80 px-3 py-2 text-sm text-white
+    placeholder:text-slate-500 focus:border-indigo-400/60 focus:outline-none focus:ring-2 focus:ring-indigo-500/20;
+}
