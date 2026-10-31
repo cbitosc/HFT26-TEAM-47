@@ -156,3 +156,18 @@ def test_consolidation_never_invents_values_and_falls_back_to_ps_rows():
         [{"pl_name": "A b", "st_teff": 5000, "st_rad": 0.9}], [{"pl_name": "A b", "st_teff": None, "st_mass": 0.8}])
     assert props["st_teff"] == 5000 and props["st_mass"] == 0.8 and props["st_rad"] == 0.9
     assert props["st_lum"] is None and props["st_spectype"] is None and props["st_met"] is None
+
+
+def test_seed_snapshot_is_served_when_nasa_is_down_and_there_is_no_cache(tmp_path, monkeypatch):
+    import json
+    from app import cache, config
+    seed = tmp_path / "seed.json"
+    seed.write_text(json.dumps({"schema_version": cache.SCHEMA_VERSION, "fetched_at": 0, "planets": [{"id": "x-b", "name": "X b"}]}))
+    monkeypatch.setattr(config, "CACHE_FILE", tmp_path / "missing_cache.json")
+    monkeypatch.setattr(config, "SEED_FILE", seed)
+    monkeypatch.setattr(cache, "_last_refresh_failure", 0.0)
+    calls = []
+    monkeypatch.setattr(cache, "fetch_raw_planets", lambda: (calls.append(1), (_ for _ in ()).throw(RuntimeError("NASA down")))[1])
+    assert [p["id"] for p in cache.get_dataset()["planets"]] == ["x-b"]
+    assert [p["id"] for p in cache.get_dataset()["planets"]] == ["x-b"]
+    assert len(calls) == 1  # the second request did not retry NASA

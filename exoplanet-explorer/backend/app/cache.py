@@ -37,15 +37,34 @@ def refresh() -> dict:
     return write_cache(normalize_planets(fetch_raw_planets()))
 
 
+_REFRESH_RETRY_SECONDS = 15 * 60
+_last_refresh_failure = 0.0
+
+
+def read_seed() -> dict | None:
+    try:
+        payload = json.loads(config.SEED_FILE.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    return payload if payload.get("schema_version") == SCHEMA_VERSION else None
+
+
 def get_dataset(force_refresh: bool = False) -> dict:
-    """Return cached data; refetch from NASA when missing/stale. Falls back to stale cache on failure.
+    """Return cached data; refetch from NASA when missing/stale. Falls back to stale cache on failure, and to the
+    committed seed snapshot when there is no cache at all. After a failed refresh NASA is not retried for 15 minutes
+    while there is data to serve, so requests stay fast when the archive is unreachable.
     Values NASA omits but physics gives (orbit size, equilibrium temperature, flux) are derived and labelled."""
+    global _last_refresh_failure
     cached = read_cache()
     if cached and not force_refresh and not is_stale(cached):
         return with_derived(cached)
+    fallback = cached or read_seed()
+    if fallback and not force_refresh and time.time() - _last_refresh_failure < _REFRESH_RETRY_SECONDS:
+        return with_derived(fallback)
     try:
         return with_derived(refresh())
     except Exception:
-        if cached:
-            return with_derived(cached)
+        _last_refresh_failure = time.time()
+        if fallback:
+            return with_derived(fallback)
         raise
