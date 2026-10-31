@@ -1,26 +1,19 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
-import { useThree } from '@react-three/fiber'
+import { forwardRef, useImperativeHandle, useRef } from 'react'
 import { OrbitControls } from '@react-three/drei'
 import { RotateCcw } from 'lucide-react'
+import { MAX_VIEW_DISTANCE } from './framing.js'
 
-// Camera controls (rotate / zoom / pan, mouse + touch). Re-frames the camera when the system's
-// size changes, so "Reset view" always returns to a sensible view of the current planet.
-const SceneControls = forwardRef(function SceneControls({ orbitRadius }, ref) {
+// Camera controls (rotate / zoom / pan, mouse + touch). Framing and transitions are owned by CameraDirector;
+// this component only wraps OrbitControls, can be disabled while the camera is travelling, and exposes
+// `instance()` (for the director) and `reset()` ("Reset view").
+const SceneControls = forwardRef(function SceneControls({ enabled = true }, ref) {
   const controls = useRef()
-  const camera = useThree((s) => s.camera)
-
-  useEffect(() => {
-    const d = orbitRadius * 2.1 + 3
-    camera.position.set(0, d * 0.45, d)
-    controls.current.target.set(0, 0, 0)
-    controls.current.update()
-    controls.current.saveState()
-  }, [orbitRadius, camera])
 
   useImperativeHandle(ref, () => ({
+    instance: () => controls.current,
     reset: () => {
       const c = controls.current
-      if (!c) return
+      if (!c || !c.enabled) return // ignore while a transition is running
       // Flush any damping momentum first so the view lands exactly on the saved state.
       c.enableDamping = false
       c.update()
@@ -30,8 +23,8 @@ const SceneControls = forwardRef(function SceneControls({ orbitRadius }, ref) {
   }), [])
 
   return (
-    <OrbitControls ref={controls} makeDefault enableDamping dampingFactor={0.08}
-      minDistance={3} maxDistance={60} enablePan zoomSpeed={0.8} />
+    <OrbitControls ref={controls} makeDefault enabled={enabled} enableDamping dampingFactor={0.08}
+      minDistance={0.001} maxDistance={MAX_VIEW_DISTANCE} enablePan zoomSpeed={0.8} />
   )
 })
 
@@ -40,7 +33,7 @@ export default SceneControls
 export function ResetViewButton({ onClick }) {
   return (
     <button onClick={onClick}
-      className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-space-900/80 px-3 py-1.5 text-xs text-slate-200 backdrop-blur hover:border-cyan-300/40 hover:text-white">
+      className="glass-btn px-3.5 py-2 text-xs">
       <RotateCcw className="h-3.5 w-3.5" /> Reset view
     </button>
   )

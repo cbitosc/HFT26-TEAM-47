@@ -1,8 +1,8 @@
 import { CanvasTexture, SRGBColorSpace } from 'three'
 
 // Small seeded value-noise textures. These are generated artwork, not surface imagery.
-const W = 256
-const H = 128
+const DEFAULT_W = 256
+const DEFAULT_H = 128
 
 const hash = (x, y, s) => {
   let h = Math.imul(x, 374761393) ^ Math.imul(y, 668265263) ^ Math.imul(s, 2147483647)
@@ -43,7 +43,8 @@ const PALETTES = {
   unknown: { a: '#7d828f', b: '#9a9fab' },
 }
 
-export function createPlanetTexture(type, seedStr) {
+// width/height default to the small orbit-view texture; the planet detail view asks for a larger one.
+export function createPlanetTexture(type, seedStr, W = DEFAULT_W, H = DEFAULT_H) {
   const seed = [...seedStr].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) | 0, 7) >>> 0
   const pal = PALETTES[type] ?? PALETTES.unknown
   const A = rgb(pal.a), B = rgb(pal.b)

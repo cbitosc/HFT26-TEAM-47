@@ -1,0 +1,11 @@
+import { mkdir, writeFile } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
+const query = 'select pl_name,hostname,ra,dec,sy_dist,disc_year,discoverymethod,disc_facility,pl_rade,pl_bmasse,pl_orbper,pl_orbsmax,pl_eqt,st_teff,sy_pnum from pscomppars';
+const url = `https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=${encodeURIComponent(query)}&format=json`;
+const response = await fetch(url, { signal: AbortSignal.timeout(5000) });
+if (!response.ok) throw new Error(`NASA Archive returned ${response.status}`);
+const rows = await response.json();
+if (!Array.isArray(rows) || !rows.length) throw new Error('NASA Archive returned no planet rows; cache was not written.');
+const output = resolve('public/exoplanets.json'); await mkdir(dirname(output), { recursive: true });
+await writeFile(output, JSON.stringify({ fetchedAt: new Date().toISOString(), source: url, rows }, null, 2));
+console.log(`Saved ${rows.length} archive rows to ${output}`);

@@ -19,3 +19,14 @@ export const PROPERTIES = [
   { key: 'equilibrium_temperature_k', label: 'Equilibrium temperature', unit: 'K', digits: 0 },
   { key: 'star_temperature_k', label: 'Host star temperature', unit: 'K', digits: 0 },
 ]
+
+// Plain-language summary built only from NASA values.
+export function describePlanet(p) {
+  const parts = [`${p.name} is a confirmed exoplanet orbiting ${p.host_star ?? 'an unnamed host star'}.`]
+  if (p.discovery_year || p.discovery_method) {
+    parts.push(`It was discovered${p.discovery_year ? ` in ${p.discovery_year}` : ''}${p.discovery_method ? ` using the ${p.discovery_method} method` : ''}.`)
+  }
+  if (p.radius_earth != null) parts.push(`Its radius is ${fmt(p.radius_earth)} times Earth's.`)
+  if (p.orbital_period_days != null) parts.push(`One orbit takes ${fmt(p.orbital_period_days)} days.`)
+  return parts.join(' ')
+}

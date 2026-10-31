@@ -1,0 +1,42 @@
+{
+  "Earth": {
+    "75": "Earth's catalog equilibrium temperature is 255 K; the model adds an assumed 33 K greenhouse offset.",
+    "50": "Earth receives 1.0× Earth's stellar flux; the simulation models no radiation drain here.",
+    "25": "The Earth reference stays above the critical range in this hazard model; suit integrity remains stable."
+  },
+  "TRAPPIST-1 e": {
+    "75": "Modeled temperature is 284 K after the assumed greenhouse offset; radiation contributes 1.25 HP/s.",
+    "50": "TRAPPIST-1 e receives 0.65× Earth flux; the M-dwarf flare assumption raises suit drain.",
+    "25": "Integrity is critical: radiation contributes 1.25 HP/s; catalog equilibrium temperature is 251 K."
+  },
+  "TRAPPIST-1 f": {
+    "75": "The modeled temperature is 252 K after the greenhouse assumption; flare-penalized radiation leads suit drain.",
+    "50": "Stellar flux is 0.38× Earth around a 2566 K star; the flare penalty remains in the model.",
+    "25": "Modeled drain is 1.29 HP/s overall, led by radiation with the M-dwarf flare penalty."
+  },
+  "Proxima Cen b": {
+    "75": "The 3042 K M-dwarf host triggers the flare assumption; radiation is the leading modeled drain.",
+    "50": "Catalog flux is 0.65× Earth; the model applies a threefold M-dwarf flux penalty.",
+    "25": "Integrity is critical: total modeled drain is 1.26 HP/s, led by radiation and flare exposure."
+  },
+  "Kepler-186 f": {
+    "75": "Catalog equilibrium temperature is 188 K; the rocky-world greenhouse assumption lifts the modeled temperature.",
+    "50": "Mass is estimated from the 1.17 Earth-radius catalog value; gravity and flare terms shape the drain.",
+    "25": "The catalog has no mass measurement for this planet; gravity remains an explicitly estimated hazard."
+  },
+  "55 Cnc e": {
+    "75": "Thermal exposure is modeled at 12 HP/s; catalog equilibrium temperature is 1950 K.",
+    "50": "Radiation adds 10.50 HP/s at 2400× Earth flux; thermal severity remains the leading hazard.",
+    "25": "Thermal stress leads at 12 HP/s from the catalog equilibrium temperature of 1950 K."
+  },
+  "HD 209458 b": {
+    "75": "No solid ground is modeled; radius is 15.5 Earth radii, with 1450 K equilibrium temperature.",
+    "50": "Thermal drain is 12 HP/s; catalog stellar flux is 900× Earth under the simplified model.",
+    "25": "No-ground exposure contributes 60 HP/s; catalog radius is 15.5 Earth radii."
+  },
+  "Kepler-452 b": {
+    "75": "Catalog equilibrium temperature is 265 K; estimated mass makes gravity the leading modeled hazard.",
+    "50": "Planet mass is estimated from radius because NASA has no mass value in this cached demo row.",
+    "25": "Estimated gravity drives the hazard model; this planet's mass is not measured in the cached row."
+  }
+}

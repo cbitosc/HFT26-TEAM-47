@@ -6,6 +6,10 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     // Dev: forward /api to the FastAPI backend
-    proxy: { '/api': 'http://localhost:8000' },
+    proxy: {
+      '/api': 'http://localhost:8000',
+      // The embedded game (game/) has its own Express API on :8787; '/api' belongs to the FastAPI backend above.
+      '/game-api': { target: 'http://localhost:8787', rewrite: (path) => path.replace(/^\/game-api/, '/api') },
+    },
   },
 })

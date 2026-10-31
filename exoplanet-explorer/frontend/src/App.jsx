@@ -1,24 +1,36 @@
-import { Routes, Route } from 'react-router-dom'
-import Navbar from './components/Navbar.jsx'
-import Home from './pages/Home.jsx'
-import PlanetDetail from './pages/PlanetDetail.jsx'
+import { Navigate, Routes, Route, useMatch } from 'react-router-dom'
+import TopBar from './components/TopBar.jsx'
+import Explorer from './pages/Explorer.jsx'
 import Compare from './pages/Compare.jsx'
-import About from './pages/About.jsx'
+import Astronomer from './pages/Astronomer.jsx'
+import Game from './pages/Game.jsx'
+import Timeline from './pages/Timeline.jsx'
+import SpaceBackdrop from './components/SpaceBackdrop.jsx'
+import { UniverseSettingsProvider } from './context/UniverseSettings.jsx'
 
 export default function App() {
+  // Hooks must run unconditionally, so evaluate every match before combining them.
+  const matches = [useMatch('/'), useMatch('/planet/:id'), useMatch('/system/:id')]
+  const onExplorer = matches.some(Boolean)
+  const onGame = !!useMatch('/game') // the game is a fullscreen, immersive route: no site navbar, no reserved top space
   return (
-    <div className="min-h-screen overflow-x-hidden">
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/planet/:id" element={<PlanetDetail />} />
-        <Route path="/compare" element={<Compare />} />
-        <Route path="/about" element={<About />} />
-        <Route path="*" element={<About notFound />} />
-      </Routes>
-      <footer className="mt-24 border-t border-white/5 py-8 text-center text-xs text-slate-500">
-        Data: NASA Exoplanet Archive (Caltech/IPAC). Planet artwork is illustrative, not photographic.
-      </footer>
-    </div>
+    <UniverseSettingsProvider>
+      {/* The explorer draws its own full-screen scene; the other pages get a quiet Milky Way backdrop. */}
+      {!onExplorer && !onGame && <SpaceBackdrop />}
+      <div className="relative z-10 min-h-screen overflow-x-hidden" style={onExplorer || onGame ? undefined : { paddingTop: 'calc(var(--topbar-h, 5rem) + 0.25rem)' }}>
+        {!onGame && <TopBar />}
+        <Routes>
+          <Route path="/" element={<Explorer />}>
+            <Route path="planet/:id" element={null} />
+            <Route path="system/:id" element={null} />
+          </Route>
+          <Route path="/compare" element={<Compare />} />
+          <Route path="/astronomer" element={<Astronomer />} />
+          <Route path="/timeline" element={<Timeline />} />
+          <Route path="/game" element={<Game />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
+    </UniverseSettingsProvider>
   )
 }

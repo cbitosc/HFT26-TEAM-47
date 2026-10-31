@@ -14,6 +14,16 @@ FIELD_MAP = {
     "pl_orbsmax": ("semi_major_axis_au", float),
     "pl_eqt": ("equilibrium_temperature_k", float),
     "st_teff": ("star_temperature_k", float),
+    "st_rad": ("star_radius_solar", float),
+    "st_mass": ("star_mass_solar", float),
+    "st_lum": ("star_luminosity_log_solar", float),  # log10(L / L_sun), as published by NASA
+    "st_spectype": ("star_spectral_type", str),
+    "st_met": ("star_metallicity_dex", float),  # [Fe/H], informational only
+    "pl_orbeccen": ("eccentricity", float),
+    "pl_insol": ("insolation_earth", float),  # incident flux, Earth = 1
+    "sy_pnum": ("system_planet_count", int),
+    "glon": ("galactic_longitude_deg", float),  # sky position of the system, used to place it in the Milky Way
+    "glat": ("galactic_latitude_deg", float),
     "sy_dist": ("distance_parsecs", float),
     "discoverymethod": ("discovery_method", str),
     "disc_year": ("discovery_year", int),
@@ -49,6 +59,9 @@ def normalize_planet(row: dict) -> dict | None:
     if not planet["name"]:
         return None
     planet["distance_light_years"] = parsecs_to_light_years(planet["distance_parsecs"])
+    # Where the distance came from: the planet's own record ("ps") or NASA's composite table filled in a gap.
+    planet["star_data_source"] = row.get("_star_source", "ps")  # "ps", or "pscomppars" when NASA's composite table supplied the star's values
+    planet["distance_source"] = row.get("_distance_source", "ps") if planet["distance_parsecs"] is not None else None
     return {"id": make_id(planet["name"]), **planet}
 
 
