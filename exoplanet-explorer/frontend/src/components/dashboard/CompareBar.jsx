@@ -1,6 +1,6 @@
 import { fmt } from '../../format.js'
 
-// Log-scale bar comparing a value with a reference (Earth = 1). Tick marks the reference.
+
 export default function CompareBar({ value, reference = 1, referenceLabel = 'Earth', range = [0.1, 100] }) {
   if (value == null) return null
   const [lo, hi] = range.map(Math.log10)

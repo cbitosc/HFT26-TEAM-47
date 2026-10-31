@@ -3,9 +3,9 @@ import { OrbitControls } from '@react-three/drei'
 import { RotateCcw } from 'lucide-react'
 import { MAX_VIEW_DISTANCE } from './framing.js'
 
-// Camera controls (rotate / zoom / pan, mouse + touch). Framing and transitions are owned by CameraDirector;
-// this component only wraps OrbitControls, can be disabled while the camera is travelling, and exposes
-// `instance()` (for the director) and `reset()` ("Reset view").
+
+
+
 const SceneControls = forwardRef(function SceneControls({ enabled = true }, ref) {
   const controls = useRef()
 
@@ -13,8 +13,8 @@ const SceneControls = forwardRef(function SceneControls({ enabled = true }, ref)
     instance: () => controls.current,
     reset: () => {
       const c = controls.current
-      if (!c || !c.enabled) return // ignore while a transition is running
-      // Flush any damping momentum first so the view lands exactly on the saved state.
+      if (!c || !c.enabled) return
+
       c.enableDamping = false
       c.update()
       c.reset()

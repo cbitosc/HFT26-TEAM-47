@@ -16,7 +16,7 @@ describe('survival pacing requirements', () => {
     const p = planet('TRAPPIST-1 e'); const sim = computeSurvival(p); const health = finalHealth(p);
     expect(sim.timeToDeath).toBeGreaterThan(60);
     expect(health).toBeGreaterThan(10);
-    expect(health).toBeLessThan(35); // Enters the pulsing red-vignette range before the demo ends.
+    expect(health).toBeLessThan(35);
   });
 
   it('55 Cnc e dies in 3–10 seconds, with thermal as its largest hazard', () => {
@@ -70,7 +70,7 @@ describe('movement survival modifiers', () => {
   it('lets a TRAPPIST-1 e run that reaches the terminator and shelter finish above 50 health', () => {
     const p = planet('TRAPPIST-1 e');
     useGame.getState().reset(); useGame.getState().drop(p); useGame.getState().tick(3);
-    // The controller publishes this state after the player walks to the twilight shelter.
+
     useGame.getState().setPlayerState({ s: 0, sheltered: true });
     useGame.getState().setRunMetrics({ distanceWalked: 180 });
     useGame.getState().tick(60);

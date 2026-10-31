@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import  { useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Text } from '@react-three/drei';
-import { AdditiveBlending, BufferAttribute, BufferGeometry, Color, DoubleSide, RingGeometry, ShaderMaterial, Vector3 } from 'three';
+import { AdditiveBlending, BufferAttribute, BufferGeometry, Color, DoubleSide,  ShaderMaterial, Vector3 } from 'three';
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 import { aggregateHosts } from '../data/hosts.js';
 import { METHOD_GROUPS, FACILITY_GROUPS, methodGroup } from '../data/methods.js';
-import { useTimeline } from '../store.js';
+
 
 const K=2.1, FACILITY_INDEX={Kepler:0,TESS:1,K2:2,Other:3};
 const displayPosition=([x,y,z],distancePc)=>{const r=K*Math.log10(1+distancePc);const magnitude=Math.hypot(x,y,z)||1;return [x/magnitude*r,z/magnitude*r,-y/magnitude*r]};

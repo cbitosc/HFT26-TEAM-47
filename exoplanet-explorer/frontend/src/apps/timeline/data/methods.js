@@ -1,4 +1,4 @@
-// Keep archive string normalization and group assignment in this one configuration.
+
 export const METHOD_GROUPS = [
   { name: 'Transit', color: '#56B4E9', match: /transit(?!.*timing)/i },
   { name: 'Radial Velocity', color: '#E69F00', match: /radial velocity|stellar.*(?:wobble|rv)|doppler/i },

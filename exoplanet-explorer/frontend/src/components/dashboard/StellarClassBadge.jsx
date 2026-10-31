@@ -1,8 +1,8 @@
 import { classifyStar } from '../../utils/stellarClassification.js'
 import { starColor, rgbToHex } from '../../utils/stellarColorMapping.js'
 
-// Small classification indicator for a host star: a swatch in the colour the 3D star is drawn with, and its class.
-// Shown only as specifically as NASA's data allows ("Classification unavailable" when there is nothing to go on).
+
+
 export default function StellarClassBadge({ star }) {
   const cls = classifyStar(star)
   const { rgb, basis } = starColor(star)

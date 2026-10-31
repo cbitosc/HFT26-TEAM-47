@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Line } from '@react-three/drei'
 
-// Circular illustrative orbit (NASA's eccentricity is not used). Dashed when the radius is a default.
+
 export default function OrbitalPath({ radius, dashed = false }) {
   const points = useMemo(
     () => Array.from({ length: 129 }, (_, i) => {

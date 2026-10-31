@@ -1,5 +1,5 @@
-// Search / filter / sort for the planet list. Pure functions; missing values never match a numeric
-// filter and always sort last.
+
+
 import { calculateHabitabilityScore } from './habitabilityCalculations.js'
 
 export const SORTS = {
@@ -13,10 +13,10 @@ export const SORTS = {
 
 export const INITIAL_FILTERS = { habitable: false, rocky: false, nearby: false, method: 'all', rmin: '', rmax: '', sort: 'dist-asc' }
 
-export const ROCKY_MAX_RADIUS = 1.6 // R_earth, see SIZE_BANDS in habitabilityCalculations.js
+export const ROCKY_MAX_RADIUS = 1.6
 export const NEARBY_MAX_LY = 100
 
-/** Quick-filter flags. "Habitable zone" = orbit inside the (optimistic) zone per the screening model. */
+
 export function planetFlags(p) {
   const hz = calculateHabitabilityScore(p).components.habitableZone
   return {

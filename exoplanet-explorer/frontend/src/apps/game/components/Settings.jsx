@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { AudioLines, Volume2, VolumeX } from 'lucide-react';
 
 export default function Settings({ muted, onMute, lowQuality, onToggleQuality, className = '' }) {

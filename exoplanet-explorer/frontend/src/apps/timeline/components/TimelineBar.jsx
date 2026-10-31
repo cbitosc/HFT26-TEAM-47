@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Pause, Play, Volume2, VolumeX } from 'lucide-react';
+import  { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Pause, Play, Volume2 } from 'lucide-react';
 import { useTimeline } from '../store.js';
 import { eventsInRange } from '../config/events.js';
 import { METHOD_GROUPS } from '../data/methods.js';

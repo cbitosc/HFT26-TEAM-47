@@ -1,4 +1,4 @@
-// Horizontal axis with shaded bands and a marker. Used for temperature and habitable-zone position.
+
 export default function RangeBar({ min, max, log = false, bands = [], marker, markerLabel, ticks = [] }) {
   const conv = (v) => (log ? Math.log10(v) : v)
   const pos = (v) => Math.min(100, Math.max(0, ((conv(v) - conv(min)) / (conv(max) - conv(min))) * 100))

@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 
-// Segmented control with a sliding glass "lens" under the selected item.
+
 export default function SegmentedControl({ items, value, onChange, label, fill = false, className = '' }) {
   const refs = useRef({})
   const root = useRef(null)

@@ -4,11 +4,11 @@ import { classifyPlanetSize } from '../../utils/habitabilityCalculations.js'
 
 const shortClass = (p) => (classifyPlanetSize(p.radius_earth)?.label ?? 'Unclassified').replace(/\s*\(.*\)/, '')
 
-// Every exoplanet with its classification and star system. With `grouped`, a header precedes each system.
+
 export default function PlanetList({ planets, selectedId, onSelect, onClear, loading, grouped = false, onSelectSystem, systemIdOf }) {
   const box = useRef(null)
 
-  // Keep the selected row visible by scrolling only this list (never the page).
+
   useEffect(() => {
     const row = box.current?.querySelector('[aria-current="true"]')
     if (!row) return

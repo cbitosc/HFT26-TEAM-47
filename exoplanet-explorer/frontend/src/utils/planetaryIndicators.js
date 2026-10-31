@@ -1,5 +1,5 @@
-// Educational indicator content for the habitability section. Pure functions (unit tested): all the science lives
-// here, the UI only renders it. Nothing here is scored; the score is in habitabilityCalculations.js.
+
+
 import { COMPLETENESS_ITEMS, stellarLuminosity } from './habitabilityCalculations.js'
 import { classifyStar } from './stellarClassification.js'
 
@@ -7,7 +7,7 @@ const isNum = (v) => typeof v === 'number' && Number.isFinite(v)
 export const EARTH_DENSITY_G_CM3 = 5.514
 export const EARTH_EQ_TEMPERATURE_K = 255
 
-/** Planet mass, plus bulk density when radius is also known (derived: density = Earth's x M / R^3). */
+
 export function massIndicator(p) {
   const m = p.mass_earth, r = p.radius_earth
   const why = 'Mass, together with radius, gives a planet\'s average density, which helps astronomers judge whether it is more likely rock-and-metal-rich or carries a thick gas or ice envelope. Mass alone does not fix composition.'
@@ -21,7 +21,7 @@ export function massIndicator(p) {
   }
 }
 
-/** What the equilibrium temperature can and cannot say about surface conditions. */
+
 export function temperatureRelevance(p) {
   const t = p.equilibrium_temperature_k
   const caveat = `Equilibrium temperature is what a planet would have if it simply absorbed starlight and re-radiated it, with no atmosphere or greenhouse effect. It is NOT the surface temperature: Earth's equilibrium temperature is about ${EARTH_EQ_TEMPERATURE_K} K (−18 °C) while its actual average surface temperature is about 288 K (15 °C).`
@@ -35,7 +35,7 @@ export function temperatureRelevance(p) {
   }
 }
 
-/** Host-star characteristics relevant to habitability. Stellar activity is not part of this dataset. */
+
 export function hostStarCharacteristics(p) {
   const cls = classifyStar(p)
   const lum = stellarLuminosity(p)
@@ -52,7 +52,7 @@ export function hostStarCharacteristics(p) {
   }
 }
 
-/** Which of the key measurements are measured, derived, or unavailable (what the completeness score counts). */
+
 export function dataAvailability(p) {
   const lum = stellarLuminosity(p)
   const items = COMPLETENESS_ITEMS.map(({ key, label, has }) => {

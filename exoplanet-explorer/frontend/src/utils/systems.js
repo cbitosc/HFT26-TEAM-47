@@ -1,4 +1,4 @@
-// Star-system grouping and the mock-orbit scene layouts. Pure functions (unit tested).
+
 import { DEFAULTS, classifyPlanet, getSceneParams, orbitSecondsFromDays, planetSizeFromRadius, starColorFromTemp, starScaleFromRadius } from '../components/3d/scaling.js'
 import { starVisuals } from './stellarScaling.js'
 
@@ -13,11 +13,7 @@ const byAxis = (a, b) => {
 }
 const firstNum = (planets, key) => planets.map((p) => p[key]).find((v) => v != null) ?? null
 
-/**
- * Group planets by host star and order the systems by planet count, highest first; equal counts fall back to
- * the host star's name. Planet records are de-duplicated by id, and the NASA `ps` table only holds confirmed
- * planets, so nothing unconfirmed is counted. Planets without a host star name are left out.
- */
+
 export function groupSystems(planets) {
   const map = new Map()
   const seen = new Set()
@@ -32,7 +28,7 @@ export function groupSystems(planets) {
       const ps = [...list].sort(byAxis)
       return {
         id: slug(host), host, planets: ps, count: ps.length,
-        declaredCount: Math.max(0, ...ps.map((p) => p.system_planet_count ?? 0)) || null, // NASA's sy_pnum
+        declaredCount: Math.max(0, ...ps.map((p) => p.system_planet_count ?? 0)) || null,
         star_temperature_k: firstNum(ps, 'star_temperature_k'),
         star_radius_solar: firstNum(ps, 'star_radius_solar'),
         star_mass_solar: firstNum(ps, 'star_mass_solar'),
@@ -46,17 +42,13 @@ export function groupSystems(planets) {
     .sort((a, b) => b.count - a.count || a.host.localeCompare(b.host, undefined, { numeric: true }))
 }
 
-// ---- scene layouts ----------------------------------------------------------------------------------
 
-const SYSTEM_INNER = 3.4 // first orbit just outside the star
-const SYSTEM_GAP = 1.0 // minimum spacing between neighbouring orbits
-const PHASE_STEP = 2.1 // radians; spreads planets around their orbits at start
 
-/**
- * Mock orbit layout for a whole system. Orbit radii follow the planets' real semi-major axes on a
- * log scale stretched across the system, then are pushed apart so orbits never overlap. Planets without
- * a semi-major axis get evenly spaced outer slots and are flagged as illustrative.
- */
+const SYSTEM_INNER = 3.4
+const SYSTEM_GAP = 1.0
+const PHASE_STEP = 2.1
+
+
 export function systemLayout(planets) {
   const sorted = [...planets].sort(byAxis)
   const known = sorted.filter((p) => p.semi_major_axis_au != null)
@@ -86,9 +78,9 @@ export function systemLayout(planets) {
   })
 }
 
-// ---- complete scenes for the universe canvas ---------------------------------------------------------
 
-/** Placeholder while data loads: just a star. */
+
+
 export function buildEmptyScene() {
   const star = starVisuals(null)
   return { star, starColor: star.hex, starScale: 1, outer: 10, bodies: [], estimated: {} }

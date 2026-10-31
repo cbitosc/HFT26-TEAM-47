@@ -1,6 +1,6 @@
 import { API_BASE } from '../data/apiBase.js';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { AlertTriangle, ArrowDown, Heart, Info, LoaderCircle, Shield } from 'lucide-react';
+import  { useEffect, useMemo, useRef, useState } from 'react';
+import { AlertTriangle, ArrowDown, Heart, Info, LoaderCircle } from 'lucide-react';
 import { useGame } from '../store/useGame.js';
 import PostMortem from './PostMortem.jsx';
 import AssumptionsModal from './AssumptionsModal.jsx';

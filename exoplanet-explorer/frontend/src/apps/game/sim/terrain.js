@@ -1,4 +1,4 @@
-// Deterministic, tile-independent value noise shared by terrain rendering and footsteps.
+
 const fract = (x) => x - Math.floor(x);
 const hash = (x, z) => fract(Math.sin(x * 127.1 + z * 311.7 + 19.19) * 43758.5453) * 2 - 1;
 const smooth = (t) => t * t * (3 - 2 * t);
@@ -19,7 +19,7 @@ const PROFILES = {
   cold: { amp: 1.15, scale: .025, rough: .18 },
 };
 
-// Shelter centers are part of the game's deterministic terrain layout, in meters.
+
 export function getShelterSpotsNear(x, z, range = 220) {
   const spots = [];
   const minX = Math.floor((x - range) / 200); const maxX = Math.floor((x + range) / 200);
@@ -48,4 +48,3 @@ export function terrainHeight(x, z, type = 'rocky') {
   const fine = valueNoise(x * profile.scale * 11 + 7, z * profile.scale * 11 + 43) * profile.amp * profile.rough * .07;
   return broad + detail + fine;
 }
-

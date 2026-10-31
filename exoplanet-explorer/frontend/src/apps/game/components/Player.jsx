@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import  { useEffect, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { getShelterSpotsNear, terrainHeight } from '../sim/terrain.js';
 import { useGame } from '../store/useGame.js';
@@ -10,15 +10,10 @@ export const touchMove = { x: 0, y: 0 };
 let jumpQueued = false;
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 
-const LOOK_SENSITIVITY = .0022; // radians per pixel of mouse movement
-const MAX_PITCH = 1.45; // just under straight up/down, so the view can never flip
+const LOOK_SENSITIVITY = .0022;
+const MAX_PITCH = 1.45;
 
-/**
- * First-person mouse look on the Pointer Lock API: the one camera controller of the game scene.
- * The game runs inside a shadow root (the site embeds it), where `document.pointerLockElement` is retargeted to the
- * shadow host, so the lock is read from the canvas's own root node. The store's `pointerLocked` mirrors the real lock
- * state (never just "the user clicked"): it drives the "CLICK TO LOOK AROUND" overlay.
- */
+
 function MouseLook({ enabled }) {
   const { gl, camera } = useThree();
   const on = useRef(enabled); on.current = enabled;
@@ -51,7 +46,7 @@ function MouseLook({ enabled }) {
       useGame.getState().setPointerLocked(false);
     };
   }, [gl, camera]);
-  // leaving the playable state (death, giant world, descent) releases the lock
+
   useEffect(() => { if (!enabled) { const c = gl.domElement; if ((c.getRootNode().pointerLockElement ?? document.pointerLockElement) === c) document.exitPointerLock(); } }, [enabled, gl]);
   return null;
 }
@@ -134,7 +129,7 @@ export function Player({ type, phase, sim }) {
       if (publishTimer.current >= .1) {
         publishTimer.current %= .1;
         const dz = camera.position.z - spawn.current.z;
-        const s = clamp(.6 - dz / 400, -1, 1); // Substellar axis is fixed along world -Z.
+        const s = clamp(.6 - dz / 400, -1, 1);
         const sheltered = getShelterSpotsNear(camera.position.x, camera.position.z, 6)
           .some(spot => Math.hypot(camera.position.x - spot.x, camera.position.z - spot.z) <= 6);
         const forward = camera.getWorldDirection(camera.userData.moveDirection || (camera.userData.moveDirection = camera.position.clone()));
@@ -146,7 +141,7 @@ export function Player({ type, phase, sim }) {
       accumulator.current -= STEP;
     }
   });
-  const touchDevice = typeof matchMedia !== 'undefined' && matchMedia('(pointer: coarse)').matches; // a primary touch screen; touch-capable laptops with a mouse keep mouse look
+  const touchDevice = typeof matchMedia !== 'undefined' && matchMedia('(pointer: coarse)').matches;
   return <MouseLook enabled={phase === 'alive' && type !== 'giant' && !touchDevice} />;
 }
 

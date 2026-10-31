@@ -15,7 +15,7 @@ const TOGGLES = [
 const SPEEDS = [{ id: 'slow', label: 'Slow' }, { id: 'normal', label: 'Normal' }, { id: 'fast', label: 'Fast' }]
 const QUALITY = [{ id: 'low', label: 'Low' }, { id: 'medium', label: 'Medium' }, { id: 'high', label: 'High' }]
 
-// Hidden until opened from the navbar. Visualization toggles, orbit speed, quality and camera reset. Page links live in the navbar.
+
 export default function ControlsPanel({ open, onClose, explorer }) {
   const { settings, setSetting, cameraReset } = useUniverseSettings()
   const box = useRef(null)

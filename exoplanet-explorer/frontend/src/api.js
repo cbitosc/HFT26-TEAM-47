@@ -23,7 +23,7 @@ export async function apiPost(path, body, signal) {
   }
   const data = await res.json().catch(() => ({}))
   if (!res.ok) {
-    // FastAPI validation errors put a list in `detail`; show something readable either way.
+
     const detail = Array.isArray(data.detail) ? 'Your message could not be sent (invalid input).' : data.detail
     const err = new Error(detail || `Request failed (${res.status})`)
     err.status = res.status
@@ -32,12 +32,12 @@ export async function apiPost(path, body, signal) {
   return data
 }
 
-/** Fetch an API path; returns { data, error, loading }. */
+
 export function useApi(path, { keepPrevious = false } = {}) {
   const [state, setState] = useState({ data: null, error: null, loading: true })
   useEffect(() => {
     let alive = true
-    // keepPrevious lets a view (e.g. the 3D scene) stay mounted while the next record loads.
+
     setState((s) => ({ data: keepPrevious ? s.data : null, error: null, loading: true }))
     apiGet(path)
       .then((data) => alive && setState({ data, error: null, loading: false }))

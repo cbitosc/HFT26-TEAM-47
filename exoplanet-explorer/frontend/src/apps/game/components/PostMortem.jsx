@@ -1,5 +1,5 @@
 import { API_BASE } from '../data/apiBase.js';
-import React, { useEffect, useMemo, useState } from 'react';
+import  { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, Check, LoaderCircle, Shield, TriangleAlert, X } from 'lucide-react';
 import { useGame } from '../store/useGame.js';
 import { playOutcome } from '../audio/sfx.js';

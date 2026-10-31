@@ -11,7 +11,7 @@ const TABS = [
   { id: 'exoplanets', label: 'Exoplanets' },
 ]
 
-// Minimal floating discovery panel: every star system and every exoplanet in the NASA-backed dataset.
+
 export default function IndexPanel({
   tab, onTab, loading, total, planets, systems, query, onQuery, filters, setFilters, methods, featured, featuredError,
   selectedPlanetId, activeSystemId, onSelectPlanet, onSelectSystem, onClear, systemIdOf, onExplore,

@@ -8,7 +8,7 @@ describe('curved carousel layout', () => {
     expect(d.angle).toBeGreaterThan(t.angle);
     expect(t.angle).toBeGreaterThan(m.angle);
     expect(d.visible).toBeGreaterThan(m.visible);
-    expect(m.cw).toBeLessThanOrEqual(375 * 0.72 + 1); // the centre card never fills the whole screen width
+    expect(m.cw).toBeLessThanOrEqual(375 * 0.72 + 1);
   });
 
   it('puts the selected card top centre, flat and full size', () => {

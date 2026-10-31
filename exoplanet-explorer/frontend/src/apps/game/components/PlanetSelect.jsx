@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import  { useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { Stars } from '@react-three/drei';
 import * as THREE from 'three';
-import { ArrowDown, ArrowLeft, ArrowRight, Info, Search, Shield, Sparkles } from 'lucide-react';
+import { ArrowDown, ArrowLeft, ArrowRight,  Search,  Sparkles } from 'lucide-react';
 import { computeSurvival } from '../sim/survival.js';
 import { useGame } from '../store/useGame.js';
 import { unlockAudio, playTone, startDescentRumble } from '../audio/sfx.js';
@@ -27,11 +27,11 @@ function PreviewSpheres({ planets, rootRef }) {
     slots.forEach((slot,index)=>{
       const mesh=refs.current[index]; const rect=slot.getBoundingClientRect(); const card=slot.closest('.planet-card');
       if(!mesh||rect.width===0||card?.dataset.hidden==='1'||rect.right<canvasRect.left||rect.left>canvasRect.right){if(mesh)mesh.visible=false;return;}
-      // The card face is opaque; it has a round window exactly where the planet is drawn behind it (card-local pixels).
+
       if(card){const hole=`${Math.round(slot.offsetLeft+slot.offsetWidth/2)}|${Math.round(slot.offsetTop+slot.offsetHeight/2)}|${Math.round(slot.offsetHeight*.41*1.05+2)}`;
         if(card.dataset.hole!==hole){card.dataset.hole=hole;const[hx,hy,hr]=hole.split('|');card.style.setProperty('--hx',`${hx}px`);card.style.setProperty('--hy',`${hy}px`);card.style.setProperty('--hr',`${hr}px`);}}
       mesh.visible=true;
-      if(!mesh.userData.textured){ // surface map from the planet's data, built the first time its card is on screen
+      if(!mesh.userData.textured){
         const{type,locked}=info[index]; const mat=mesh.material; mat.map=planetTextureFor(planets[index],type,locked); mat.color.set('#ffffff');
         if(type==='lava'){mat.emissiveMap=mat.map;mat.emissive.set('#ff5a1f');mat.emissiveIntensity=.55;}else{mat.emissive.set('#000000');mat.emissiveIntensity=0;}
         mat.needsUpdate=true; mesh.userData.textured=true;
@@ -40,7 +40,7 @@ function PreviewSpheres({ planets, rootRef }) {
       const ny=1-((rect.top+rect.height/2-canvasRect.top)/canvasRect.height)*2;
       mesh.position.set(nx*viewHeight*camera.aspect/2,ny*viewHeight/2,0);
       mesh.scale.setScalar((rect.height*.41/canvasRect.height)*viewHeight);
-      if(info[index].locked){mesh.rotation.y=Math.sin(performance.now()*.0004+index)*.22;}else{mesh.rotation.y+=dt*(index%2?.36:.48);} mesh.rotation.x=Math.sin(performance.now()*.0004+index)*.08; // tidally locked worlds keep one face to the star: they rock instead of spinning
+      if(info[index].locked){mesh.rotation.y=Math.sin(performance.now()*.0004+index)*.22;}else{mesh.rotation.y+=dt*(index%2?.36:.48);} mesh.rotation.x=Math.sin(performance.now()*.0004+index)*.08;
     });
   });
   return <>
@@ -74,7 +74,7 @@ export default function PlanetSelect({ planets, source, lowQuality, loading=fals
   const selectedIndex=Math.max(0,displayed.findIndex(p=>p.pl_name===selected?.pl_name));
   const L=useMemo(()=>carouselLayout(stageW),[stageW]);
   useEffect(()=>{const el=rowRef.current;if(!el)return;const ro=new ResizeObserver(([e])=>setStageW(Math.round(e.contentRect.width)||940));ro.observe(el);setStageW(Math.round(el.getBoundingClientRect().width)||940);return()=>ro.disconnect();},[]);
-  // previous / next: move the selection (the carousel turns to keep the selected card top centre)
+
   const moveRow=direction=>{const next=displayed[Math.max(0,Math.min(displayed.length-1,selectedIndex+direction))];if(next&&next.pl_name!==selected?.pl_name)selectPlanet(next);};
   const onKeyDown=e=>{if(e.key==='ArrowLeft'){e.preventDefault();moveRow(-1);}else if(e.key==='ArrowRight'){e.preventDefault();moveRow(1);}};
   const onWheel=e=>{if(Math.abs(e.deltaX)>Math.abs(e.deltaY)&&Math.abs(e.deltaX)>20&&performance.now()-lastWheel.current>320){lastWheel.current=performance.now();moveRow(e.deltaX>0?1:-1);}};
@@ -108,4 +108,3 @@ export default function PlanetSelect({ planets, source, lowQuality, loading=fals
     <AssumptionsModal open={assumptionsOpen} onClose={()=>setAssumptionsOpen(false)} planets={planets} source={source} planet={selected}/>
   </section>;
 }
-

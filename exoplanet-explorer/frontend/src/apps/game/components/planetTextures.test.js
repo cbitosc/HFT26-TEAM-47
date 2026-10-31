@@ -9,7 +9,7 @@ describe('surface descriptions follow the planet data', () => {
 
   it('warmer temperate worlds get more land and smaller ice caps', () => {
     const cold = describeSurface({ pl_name: 'x', pl_eqt: 230 }, 'temperate'), warm = describeSurface({ pl_name: 'x', pl_eqt: 300 }, 'temperate');
-    expect(warm.land).toBeLessThan(cold.land); // lower threshold = more land
+    expect(warm.land).toBeLessThan(cold.land);
     expect(warm.cap).toBeLessThan(cold.cap);
   });
 
@@ -18,13 +18,13 @@ describe('surface descriptions follow the planet data', () => {
     const hot = describeSurface({ pl_name: 'x', pl_eqt: 1500, pl_orbper: 3 }, 'giant'), cool = describeSurface({ pl_name: 'x', pl_eqt: 300, pl_orbper: 3000 }, 'giant');
     expect(hot.turbulence).toBeGreaterThan(cool.turbulence);
     expect(hot.colors[0]).not.toBe(cool.colors[0]);
-    expect(cool.bands).toBeGreaterThan(hot.bands); // the longer orbit has more cloud bands
+    expect(cool.bands).toBeGreaterThan(hot.bands);
   });
 
   it('uses the host star temperature for the light colour, and flags tidal locking', () => {
     expect(starLight(2900)).not.toBe(starLight(5800));
     expect(starLight(9000)).toBe('#d4e4ff');
-    expect(starLight(null)).toBe(starLight(5772)); // unknown -> Sun-like
+    expect(starLight(null)).toBe(starLight(5772));
     expect(describeSurface({ pl_name: 'x' }, 'ice', true).locked).toBe(true);
     expect(describeSurface({ pl_name: 'x' }, 'ice').locked).toBe(false);
   });

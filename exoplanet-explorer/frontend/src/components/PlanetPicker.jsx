@@ -3,7 +3,7 @@ import { Search, SearchX } from 'lucide-react'
 import PlanetArt from './PlanetArt.jsx'
 import { ErrorBox, Loading } from './States.jsx'
 
-/** Searchable planet list in the explorer's index style (glass-lite panel, quiet rows). */
+
 export default function PlanetPicker({ title, subtitle, planets, loading, error, activeIds = [], onPick, top = null, className = '' }) {
   const [q, setQ] = useState('')
   const list = useMemo(() => {

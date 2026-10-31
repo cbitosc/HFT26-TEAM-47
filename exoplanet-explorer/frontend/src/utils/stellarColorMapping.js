@@ -1,28 +1,28 @@
-// Effective temperature -> displayed star colour. Pure functions (unit tested).
-//
-// Anchor colours follow how stars appear to the eye (a smooth blackbody-inspired ramp, deliberately not neon):
-// M dwarfs deep red-orange, K orange, G yellow-white, F pale yellow-white, A white, B blue-white, O blue.
-// Interpolation is in log-temperature, so the ramp is smooth across classes.
+
+
+
+
+
 import { classFromTemperature, parseSpectralType } from './stellarClassification.js'
 
 const ANCHORS = [
   [2300, [255, 72, 42]],
   [3000, [255, 104, 58]],
-  [3700, [255, 150, 82]], // M / K boundary
+  [3700, [255, 150, 82]],
   [4500, [255, 182, 108]],
-  [5200, [255, 208, 140]], // K / G boundary
-  [5800, [255, 236, 198]], // Sun-like
-  [6500, [255, 245, 226]], // F
-  [7500, [238, 242, 255]], // A
-  [10000, [206, 222, 255]], // B
+  [5200, [255, 208, 140]],
+  [5800, [255, 236, 198]],
+  [6500, [255, 245, 226]],
+  [7500, [238, 242, 255]],
+  [10000, [206, 222, 255]],
   [20000, [172, 201, 255]],
-  [30000, [152, 187, 255]], // O
+  [30000, [152, 187, 255]],
   [45000, [138, 172, 255]],
 ]
 
-export const NEUTRAL_STAR_RGB = [222, 226, 238] // used when nothing about the star's temperature or type is known
+export const NEUTRAL_STAR_RGB = [222, 226, 238]
 
-/** Representative colour of each class, used ONLY when just a spectral type is known (no temperature is implied). */
+
 const CLASS_RGB = Object.fromEntries(
   Object.entries({ O: 38000, B: 18000, A: 8700, F: 6700, G: 5600, K: 4400, M: 3200 }).map(([k, t]) => [k, temperatureToRgb(t)]),
 )
@@ -40,10 +40,7 @@ export function temperatureToRgb(t) {
 
 export const rgbToHex = (rgb) => `#${rgb.map((v) => Math.round(v).toString(16).padStart(2, '0')).join('')}`
 
-/**
- * Colour for a star: effective temperature first; else the class of its spectral type; else neutral.
- * -> { rgb, basis: 'temperature' | 'spectral-type' | 'unavailable' }
- */
+
 export function starColor(star) {
   const t = star?.star_temperature_k
   if (isNum(t) && t > 0) return { rgb: temperatureToRgb(t), basis: 'temperature' }

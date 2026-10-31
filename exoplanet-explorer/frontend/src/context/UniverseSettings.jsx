@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
 
-// Visualization settings shared by the Controls panel (navbar) and the 3D scene. Persisted per browser.
+
 const KEY = 'exoverse-settings-v1'
 export const DEFAULT_SETTINGS = { starfield: true, galaxy: true, paths: true, labels: true, motion: true, orbitSpeed: 'slow', quality: 'high' }
 
@@ -12,11 +12,11 @@ const Ctx = createContext(null)
 
 export function UniverseSettingsProvider({ children }) {
   const [settings, setSettings] = useState(load)
-  const cameraReset = useRef(null) // the explorer registers its "reset camera" handler here
+  const cameraReset = useRef(null)
   const setSetting = useCallback((k, v) => {
     setSettings((s) => {
       const next = { ...s, [k]: v }
-      try { localStorage.setItem(KEY, JSON.stringify(next)) } catch { /* storage unavailable */ }
+      try { localStorage.setItem(KEY, JSON.stringify(next)) } catch {  }
       return next
     })
   }, [])
@@ -24,6 +24,6 @@ export function UniverseSettingsProvider({ children }) {
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>
 }
 
-// Falls back to defaults (no persistence) if rendered outside the provider, instead of crashing the navbar.
+
 const FALLBACK = { settings: DEFAULT_SETTINGS, setSetting: () => {}, cameraReset: { current: null } }
 export const useUniverseSettings = () => useContext(Ctx) ?? FALLBACK

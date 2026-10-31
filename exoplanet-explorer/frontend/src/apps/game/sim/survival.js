@@ -2,8 +2,8 @@ const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const estimateMass = (R) => (R < 1.5 ? Math.pow(R, 3.7) : 2.7 * Math.pow(R, 1.3));
 const safeNumber = (x, fallback) => x == null || !Number.isFinite(Number(x)) ? fallback : Number(x);
 
-// Severity curves retain the provided physical thresholds. Independent weights
-// tune the game pacing while keeping each hazard contribution inspectable.
+
+
 const DPS = Object.freeze({ thermal: 12, radiation: 10.5, dwarfFlares: 1.15, gravity: 13, surface: 60 });
 
 export function computeSurvival(p = {}) {
@@ -53,7 +53,7 @@ export function survivalPercent(sim, elapsedSeconds) {
   return Math.max(0, 100 - (sim?.totalDps ?? 0) * Math.max(0, elapsedSeconds));
 }
 
-/** Apply position-dependent game hazards without mutating the base planet model. */
+
 export function applyLocalConditions(sim = {}, { s = 0.6, sheltered = false } = {}) {
   const coordinate = clamp(safeNumber(s, 0.6), -1, 1);
   const isSheltered = Boolean(sheltered);
@@ -62,7 +62,7 @@ export function applyLocalConditions(sim = {}, { s = 0.6, sheltered = false } = 
     ? (T - 20) + ((T + 60) - (T - 20)) * Math.max(coordinate, 0)
       - ((T - 20) - Math.max(T - 140, 40)) * Math.max(-coordinate, 0)
     : T;
-  // A small modeled thermal-inertia buffer makes the twilight band gameplay-rewarding.
+
   const twilightThermalFactor = sim.tidallyLocked ? Math.max(0.01, Math.abs(coordinate)) : 1;
   const hazards = (Array.isArray(sim.hazards) ? sim.hazards : []).map(hazard => {
     const next = { ...hazard, sev: Math.max(0, safeNumber(hazard.sev, 0)), dps: Math.max(0, safeNumber(hazard.dps, 0)) };
@@ -78,7 +78,7 @@ export function applyLocalConditions(sim = {}, { s = 0.6, sheltered = false } = 
     }
     if (isSheltered && next.id === 'radiation') {
       next.sev *= 0.4;
-      // The M-dwarf flare component is part of radiation exposure and is shielded too.
+
       next.dps *= 0.4;
     }
     next.sev = Number.isFinite(next.sev) ? next.sev : 0;

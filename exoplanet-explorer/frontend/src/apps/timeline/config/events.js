@@ -1,4 +1,4 @@
-// Double-check every milestone date and wording against the linked NASA press release before changing this list.
+
 export const EVENTS = [
   { id: 'pulsar-planets', year: 'minYear', label: 'First planets found around a pulsar', short: 'Pulsar planets', source: 'https://science.nasa.gov/universe/exoplanets/nobel-winners-changed-our-understanding-with-exoplanet-discovery/' },
   { id: '51-pegasi-b', year: 1995, label: '51 Pegasi b: first planet confirmed around a Sun-like star', short: '51 Pegasi b', source: 'https://science.nasa.gov/universe/exoplanets/nobel-winners-changed-our-understanding-with-exoplanet-discovery/' },

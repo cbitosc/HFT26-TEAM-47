@@ -1,27 +1,27 @@
-// Educational habitability SCREENING calculations. Pure functions, no UI or DOM.
-//
-// This is NOT a measure of whether a planet is habitable or hosts life. It only compares a few
-// NASA-reported numbers against simple, documented thresholds. Atmosphere, surface conditions
-// and magnetic fields are unknown for essentially all exoplanets.
-//
-// Scoring (max 100). Missing inputs are never scored favourably: an unknown indicator
-// contributes 0 points AND is listed as unknown.
-//   Habitable zone       35  (Kopparapu et al. 2013 boundaries)
-//   Temperature          30  (equilibrium temperature)
-//   Planet size          20  (radius)
-//   Data completeness    15  (share of 5 key measurements reported)
+
+
+
+
+
+
+
+
+
+
+
+
 
 export const PARSEC_TO_LIGHT_YEARS = 3.26156
 export const SOLAR_TEFF_K = 5772
 
 export const WEIGHTS = { habitableZone: 35, temperature: 30, planetSize: 20, dataCompleteness: 15 }
 
-// Equilibrium temperature thresholds (K). Earth's is ~255 K with an albedo of 0.3, so the
-// "comfortable" band is centred on that rather than on Earth's 288 K surface mean.
+
+
 export const TEMPERATURE_BANDS = { idealMin: 200, idealMax: 300, zeroLow: 100, zeroHigh: 400 }
 
-// Radius thresholds (Earth radii). ~1.6 R⊕ is where most planets stop being consistent with a
-// rocky bulk composition (Rogers 2015). Radius alone does not establish composition.
+
+
 export const SIZE_BANDS = [
   { max: 0.3, score: 5, label: 'Very small', note: 'Smaller than Mercury-class bodies; atmosphere retention is doubtful.' },
   { max: 0.5, score: 12, label: 'Small rocky-sized', note: 'Mars-sized or smaller; may struggle to retain an atmosphere.' },
@@ -33,8 +33,8 @@ export const SIZE_BANDS = [
 
 export const CATEGORY_THRESHOLDS = { higher: 70, moderate: 40 }
 
-// Kopparapu et al. (2013), Table 3 (ApJ 765, L131): S_eff = S0 + a*T + b*T^2 + c*T^3 + d*T^4,
-// T = Teff - 5780 K. Valid for 2600 K <= Teff <= 7200 K.
+
+
 const KOPPARAPU = {
   recentVenus: [1.7753, 1.4316e-4, 2.9875e-9, -7.5702e-12, -1.1635e-15],
   moistGreenhouse: [1.0140, 8.1774e-5, 1.7063e-9, -4.3241e-12, -6.6462e-16],
@@ -47,12 +47,12 @@ const isNum = (v) => typeof v === 'number' && Number.isFinite(v)
 
 export const parsecsToLightYears = (pc) => (isNum(pc) ? pc * PARSEC_TO_LIGHT_YEARS : null)
 
-/** Stellar luminosity in solar units, with provenance. Never invented: null when not derivable. */
+
 export function stellarLuminosity(p) {
   if (isNum(p.star_luminosity_log_solar)) {
     return { value: 10 ** p.star_luminosity_log_solar, source: 'reported' }
   }
-  // Stefan-Boltzmann: L/Lsun = (R/Rsun)^2 * (Teff/5772)^4. A derived value, flagged as such.
+
   if (isNum(p.star_radius_solar) && isNum(p.star_temperature_k)) {
     return { value: p.star_radius_solar ** 2 * (p.star_temperature_k / SOLAR_TEFF_K) ** 4, source: 'derived' }
   }
@@ -65,11 +65,7 @@ function seff(coeffs, teff) {
   return s0 + a * t + b * t ** 2 + c * t ** 3 + d * t ** 4
 }
 
-/**
- * Habitable-zone boundaries in AU, or null if Teff/luminosity are missing or Teff is outside the
- * model's validity range. Conservative = moist greenhouse .. maximum greenhouse;
- * optimistic = recent Venus .. early Mars.
- */
+
 export function habitableZoneBounds(teff, luminositySolar) {
   if (!isNum(teff) || !isNum(luminositySolar) || luminositySolar <= 0) return null
   if (teff < HZ_TEFF_RANGE[0] || teff > HZ_TEFF_RANGE[1]) return null
@@ -143,7 +139,7 @@ export const COMPLETENESS_ITEMS = [
   { key: 'mass', label: 'Planet mass', has: (p) => isNum(p.mass_earth) },
   { key: 'temperature', label: 'Equilibrium temperature', has: (p) => isNum(p.equilibrium_temperature_k) },
   { key: 'orbit', label: 'Orbital distance', has: (p) => isNum(p.semi_major_axis_au) },
-  // "Stellar information" = temperature plus luminosity (or the radius to derive it): what the HZ model needs.
+
   { key: 'star', label: 'Stellar temperature & luminosity', has: (p) => isNum(p.star_temperature_k) && stellarLuminosity(p) != null },
 ]
 
@@ -163,11 +159,7 @@ export function calculateDataCompletenessScore(p) {
   }
 }
 
-/**
- * Overall screening result. Unknown indicators score 0 and are listed; with fewer than two of the
- * three scientific indicators known the result is "Insufficient data"; any unknown caps the
- * category at "Moderate" so missing data can never look favourable.
- */
+
 export function calculateHabitabilityScore(p) {
   const temperature = calculateTemperatureScore(p)
   const habitableZone = calculateHabitableZoneScore(p)

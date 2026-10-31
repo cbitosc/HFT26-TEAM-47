@@ -22,7 +22,7 @@ function getContext() {
   return context;
 }
 
-// Call only from a user-initiated event (drop, unmute). No module-load audio work.
+
 export async function unlockAudio() {
   if (useGame.getState().muted) return false;
   const ctx = getContext();
@@ -51,7 +51,7 @@ export function playTone(freq = 440, duration = .12, type = 'sine', volume = .08
     gain.gain.setValueAtTime(Math.max(.0001, volume), now);
     gain.gain.exponentialRampToValueAtTime(.0001, now + duration);
     osc.connect(gain); gain.connect(master); osc.start(now); osc.stop(now + duration);
-  } catch { /* Optional audio never affects the simulation. */ }
+  } catch {  }
 }
 
 function thump(volume, at = context?.currentTime || 0) {
@@ -63,7 +63,7 @@ function thump(volume, at = context?.currentTime || 0) {
   osc.connect(filter); filter.connect(gain); gain.connect(master); osc.start(at); osc.stop(at + .2);
 }
 
-// Short synthesized ground contact; its low-pass pitch falls as surface gravity rises.
+
 export function playFootstep(gravity = 1, landing = false) {
   if (!context || context.state !== 'running' || !master || useGame.getState().muted) return;
   try {
@@ -76,7 +76,7 @@ export function playFootstep(gravity = 1, landing = false) {
     gain.gain.exponentialRampToValueAtTime(.0001, now + (landing ? .18 : .105));
     source.connect(filter); filter.connect(gain); gain.connect(master);
     source.start(now, Math.random() * .6, landing ? .18 : .11); source.stop(now + (landing ? .19 : .12));
-  } catch { /* Sound is optional and never gates the game. */ }
+  } catch {  }
 }
 
 function currentRadiationSeverity() {
@@ -161,7 +161,7 @@ export function stopDescentRumble() {
     old.gain.gain.cancelScheduledValues(context.currentTime);
     old.gain.gain.setTargetAtTime(.0001, context.currentTime, .12);
     old.source.stop(context.currentTime + .55);
-  } catch { /* Already stopped. */ }
+  } catch {  }
 }
 
 export function startSurvivalAudio() {

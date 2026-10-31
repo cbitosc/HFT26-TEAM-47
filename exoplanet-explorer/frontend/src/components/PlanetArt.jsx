@@ -1,5 +1,5 @@
-// Illustrative planet orb generated from the planet's measured properties (colour follows equilibrium
-// temperature, bands appear for giant-sized planets). It is artwork, not a photograph.
+
+
 function palette(p) {
   const t = p.equilibrium_temperature_k
   if (t == null) return ['#cfd8ff', '#7a86d9', '#262c63']

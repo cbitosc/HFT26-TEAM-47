@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { Orbit, RotateCcw } from 'lucide-react'
 
-// Compact floating guide: how to navigate, which view is on screen, and a way back to the Milky Way.
+
 export default function BottomGuide({ view, detail = false, travelling, label, note, onMilkyWay, onReset }) {
   const status = travelling ? 'Travelling' : detail ? 'Planet view' : view === 'galaxy' ? 'Milky Way view' : 'Star system view'
   const where = label ? (travelling ? ` to ${label}` : ` · ${label}`) : ''

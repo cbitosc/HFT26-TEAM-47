@@ -12,7 +12,7 @@ import { useActiveSection } from '../../hooks/useActiveSection.js'
 import { describePlanet, distanceLabel, fmt, withUnit } from '../../format.js'
 import { calculateHabitabilityScore, classifyPlanetSize } from '../../utils/habitabilityCalculations.js'
 
-// The destinations of the section island. Every id is a real section rendered below.
+
 const SECTIONS = [
   { id: 'overview', label: 'Overview', icon: Globe2 },
   { id: 'properties', label: 'Planet Properties', icon: Gauge },
@@ -65,7 +65,7 @@ function Overview({ planet: p, result }) {
   )
 }
 
-/** The scientific side of the enlarged planet view: a header, the section island, and a scrolling set of sections. */
+
 export default function PlanetDetailPanel({ planet: p, onOpenSystem }) {
   const result = useMemo(() => calculateHabitabilityScore(p), [p])
   const hz = result.components.habitableZone

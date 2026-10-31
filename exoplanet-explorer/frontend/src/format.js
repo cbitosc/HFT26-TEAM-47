@@ -1,4 +1,4 @@
-// Display helpers. Missing measurements return null so callers can show "Not available".
+
 
 export const fmt = (value, digits = 2) =>
   value == null ? null : Number(value).toLocaleString(undefined, { maximumFractionDigits: digits })
@@ -20,7 +20,7 @@ export const PROPERTIES = [
   { key: 'star_temperature_k', label: 'Host star temperature', unit: 'K', digits: 0 },
 ]
 
-// Plain-language summary built only from NASA values.
+
 export function describePlanet(p) {
   const parts = [`${p.name} is a confirmed exoplanet orbiting ${p.host_star ?? 'an unnamed host star'}.`]
   if (p.discovery_year || p.discovery_method) {

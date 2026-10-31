@@ -7,11 +7,7 @@ const BASE = `${scopeCss(preflight)}
 :host { display: block; --app-h: 100%; --font-ui: "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
 .app-root { width: 100%; height: 100%; overflow: auto; }`
 
-/**
- * Mounts an embedded app as part of the page, filling the area under the navbar. The app lives in a shadow root so its
- * stylesheet (written for a standalone page) cannot leak into, or be affected by, the site's own styles, while still
- * being ordinary React in the same tree (same React, same router, same canvas pipeline; no iframe).
- */
+
 export default function ShadowApp({ css, label, fullscreen = false, children }) {
   const host = useRef(null)
   const [root, setRoot] = useState(null)

@@ -11,13 +11,13 @@ const Timeline = lazy(() => import('./pages/Timeline.jsx'))
 import { UniverseSettingsProvider } from './context/UniverseSettings.jsx'
 
 export default function App() {
-  // Hooks must run unconditionally, so evaluate every match before combining them.
+
   const matches = [useMatch('/'), useMatch('/planet/:id'), useMatch('/system/:id')]
   const onExplorer = matches.some(Boolean)
-  const onGame = !!useMatch('/game') // the game is a fullscreen, immersive route: no site navbar, no reserved top space
+  const onGame = !!useMatch('/game')
   return (
     <UniverseSettingsProvider>
-      {/* The explorer draws its own full-screen scene; the other pages get a quiet Milky Way backdrop. */}
+
       {!onExplorer && !onGame && <SpaceBackdrop />}
       <div className="relative z-10 min-h-screen overflow-x-hidden" style={onExplorer || onGame ? undefined : { paddingTop: 'calc(var(--topbar-h, 5rem) + 0.25rem)' }}>
         {!onGame && <TopBar />}

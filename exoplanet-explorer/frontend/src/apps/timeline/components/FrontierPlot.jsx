@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import  { useMemo } from 'react';
 import { scaleBand, scaleLinear, scaleLog } from 'd3-scale';
 import { max, min } from 'd3-array';
 import { METHOD_GROUPS } from '../data/methods.js';

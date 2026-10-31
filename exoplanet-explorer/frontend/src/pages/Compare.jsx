@@ -24,7 +24,7 @@ const ROWS = [
 
 const Cell = ({ value }) => (value ? <span>{value}</span> : <span className="text-amber-300/80">Data unavailable</span>)
 
-// Side-by-side comparison of up to three planets, in the explorer's glass style.
+
 export default function Compare() {
   const all = useApi('/planets')
   const [ids, setIds] = useState(() => [readLast()].filter(Boolean))

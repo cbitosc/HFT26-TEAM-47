@@ -1,9 +1,9 @@
 import { CanvasTexture, SRGBColorSpace } from 'three';
 
-// Procedural surface maps for the destination cards. They are generated artwork, driven by each planet's NASA values:
-// world type (radius, equilibrium temperature), equilibrium temperature (ice caps, ocean/land, crack glow), orbital
-// period (cloud-band count on giants, tidal locking), insolation (dune/desert intensity) and the host star's
-// temperature (the colour of the light on the surface). They are not photographs of any real surface.
+
+
+
+
 
 const W = 256, H = 128;
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
@@ -13,7 +13,7 @@ const hash = (x, y, s) => { let h = Math.imul(x, 374761393) ^ Math.imul(y, 66826
 const smooth = t => t * t * (3 - 2 * t);
 function noise(x, y, s, wrap) {
   const xi = Math.floor(x), yi = Math.floor(y), u = smooth(x - xi), v = smooth(y - yi);
-  const w = i => ((i % wrap) + wrap) % wrap; // wraps horizontally so the map tiles around the sphere
+  const w = i => ((i % wrap) + wrap) % wrap;
   const a = hash(w(xi), yi, s), b = hash(w(xi + 1), yi, s), c = hash(w(xi), yi + 1, s), d = hash(w(xi + 1), yi + 1, s);
   return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
 }
@@ -26,16 +26,13 @@ const rgb = hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
 const mix = (a, b, t) => a.map((c, i) => c + (b[i] - c) * t);
 const seedOf = name => [...String(name || '?')].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) | 0, 7) >>> 0;
 
-/** Colour of the host star's light (same breakpoints as the in-game surface lighting). */
+
 export function starLight(teff) {
   const k = num(teff) ?? 5772;
   return k < 3500 ? '#ff7a4a' : k < 5000 ? '#ffc680' : k < 6500 ? '#fff4dc' : '#d4e4ff';
 }
 
-/**
- * What the surface looks like, from the planet's data. Pure (unit tested). `type` is the card's world type
- * ('temperate' | 'ice' | 'hot' | 'lava' | 'giant'); `locked` is the simulation's tidal-lock flag.
- */
+
 export function describeSurface(p, type, locked = false) {
   const eqt = num(p.pl_eqt), period = num(p.pl_orbper), insol = num(p.pl_insol);
   const t = eqt ?? 288;
@@ -50,7 +47,7 @@ export function describeSurface(p, type, locked = false) {
       return { ...base, colors: ['#8a4f2c', '#d8a46a'], dunes: clamp(num(insol) != null ? Math.log10(1 + insol) / 3 : .5, .2, 1) };
     case 'ice':
       return { ...base, colors: ['#9ec3e0', '#eef6fb'], cracks: clamp((273 - t) / 150, .15, .8), cap: 1 };
-    default: // temperate: warmer worlds get less ice and more land
+    default:
       return { ...base, colors: ['#1f4e8c', '#4f7a3a'], land: clamp(.62 - (t - 255) / 400, .38, .66), cap: clamp((285 - t) / 120, .04, .5) };
   }
 }
@@ -65,7 +62,7 @@ function colourAt(d, u, v, n, n2) {
     }
     case 'lava': {
       const crust = mix(A, B, n);
-      const crack = Math.abs(n2 - .5) < .035 * d.cracks + .01 ? 1 : 0; // thin glowing fissures
+      const crack = Math.abs(n2 - .5) < .035 * d.cracks + .01 ? 1 : 0;
       return crack ? mix(crust, rgb(d.glow), .95) : crust;
     }
     case 'hot': {
@@ -81,13 +78,13 @@ function colourAt(d, u, v, n, n2) {
       let col = n > d.land ? mix(A, B, .4 + (n - d.land) * 2.2) : mix(A, rgb('#2d6bb0'), n / d.land);
       const pole = Math.abs(v - .5) * 2;
       if (pole > 1 - d.cap) col = mix(col, rgb('#e8f0f5'), clamp((pole - (1 - d.cap)) / .12, 0, 1));
-      const cloud = clamp((n2 - .6) * 3, 0, .55); // wispy cloud cover
+      const cloud = clamp((n2 - .6) * 3, 0, .55);
       return mix(col, [245, 248, 252], cloud);
     }
   }
 }
 
-/** A planet's surface map. Tidally locked worlds are baked with a bright day side facing the viewer. */
+
 export function createPlanetTexture(d) {
   const canvas = document.createElement('canvas');
   canvas.width = W; canvas.height = H;
@@ -97,8 +94,8 @@ export function createPlanetTexture(d) {
       const u = x / W, v = y / H;
       const n = fbm(u, v, d.seed), n2 = fbm(u, v, d.seed + 99, 6, 5);
       let col = colourAt(d, u, v, n, n2);
-      col = mix(col, col.map((c, i) => c * tint[i] / 255), .22); // the host star's light colours the surface
-      if (d.locked) { const day = Math.max(0, Math.cos(2 * Math.PI * (u - .25))); const k = .3 + .7 * day; col = col.map(c => c * k); } // u = .25 faces the viewer
+      col = mix(col, col.map((c, i) => c * tint[i] / 255), .22);
+      if (d.locked) { const day = Math.max(0, Math.cos(2 * Math.PI * (u - .25))); const k = .3 + .7 * day; col = col.map(c => c * k); }
       const i = (y * W + x) * 4;
       img.data[i] = col[0]; img.data[i + 1] = col[1]; img.data[i + 2] = col[2]; img.data[i + 3] = 255;
     }
@@ -110,7 +107,7 @@ export function createPlanetTexture(d) {
 }
 
 const cache = new Map();
-/** Cached by planet name and world type: a card's texture is built once, when it first comes into view. */
+
 export function planetTextureFor(p, type, locked) {
   const key = `${p.pl_name}|${type}|${locked ? 1 : 0}`;
   if (!cache.has(key)) cache.set(key, createPlanetTexture(describeSurface(p, type, locked)));

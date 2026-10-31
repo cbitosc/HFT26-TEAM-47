@@ -7,7 +7,7 @@ import { LAST_PLANET_KEY } from '../hooks/useAstronomerChat.js'
 
 const readLast = () => { try { return sessionStorage.getItem(LAST_PLANET_KEY) } catch { return null } }
 
-// Standalone Virtual Astronomer in the explorer's glass layout. The planet defaults to the last one explored.
+
 export default function Astronomer() {
   const list = useApi('/planets')
   const [id, setId] = useState(readLast)

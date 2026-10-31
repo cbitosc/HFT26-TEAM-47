@@ -3,8 +3,8 @@ import { useThree } from '@react-three/fiber'
 import { AdditiveBlending, NormalBlending } from 'three'
 import { generateGalaxy } from '../../utils/galaxy.js'
 
-// Soft round points with per-point size, colour and alpha. Sizes are in screen pixels, so the galaxy keeps its
-// look at every zoom level.
+
+
 const VERT = `
   attribute float aSize; attribute float aAlpha; attribute vec3 aColor;
   uniform float uPx; varying vec3 vColor; varying float vAlpha;
@@ -37,7 +37,7 @@ function Cloud({ data, additive = true, order = 0, dpr }) {
   )
 }
 
-// A warm, soft glow over the galactic core (a few overlapping large sprites).
+
 const GLOW = {
   count: 5,
   positions: new Float32Array(15),
@@ -46,9 +46,7 @@ const GLOW = {
   alphas: new Float32Array([0.1, 0.12, 0.16, 0.22, 0.3]),
 }
 
-/**
- * Schematic Milky Way (see utils/galaxy.js: structure is illustrative). `quality` changes the particle counts.
- */
+
 export default function GalaxyField({ quality = 'high' }) {
   const dpr = useThree((s) => s.viewport.dpr)
   const galaxy = useMemo(() => generateGalaxy(quality), [quality])

@@ -2,27 +2,25 @@ import base from './style.css?inline'
 import select from './components/planet-select.css?inline'
 import hud from './components/hud.css?inline'
 
-// Cascade order matches the original (style, planet-select, hud), then the site-integration overrides.
+
 export default `${base}\n${select}\n${hud}
-/* integration: the site's navbar already carries the brand; the game fills the area under it */
+
 .topbar .brand, .select-logo { display: none; }
 .app-shell { height: 100% !important; min-height: 0 !important; }
-/* NASA column codes (pl_rade...) crowd the cards at the readable size; the plain label stays */
+
 .card-stats small b { display: none; }
 
-/* ---- in-game HUD ---- */
-/* The centre-bottom readouts (terminator compass, narrator line, G-feel, stamina, star angle) were each absolutely
-   positioned at their own fixed 'bottom', so at readable text sizes they collided. They now live in ONE column that
-   stacks them with a gap; corners keep their own anchors, all clear of the footer. */
+
+
 .game-footer { height: 32px !important; }
 .hud-bottom-center { position: absolute; left: 50%; transform: translateX(-50%); bottom: 50px; z-index: 6; display: flex; flex-direction: column; align-items: center; gap: 10px; width: max-content; max-width: calc(100% - 24px); pointer-events: none; text-align: center; }
 .hud-bottom-center > * { position: static !important; transform: none !important; left: auto !important; right: auto !important; bottom: auto !important; margin: 0 !important; }
-/* the centre column keeps clear of the left hazard rail (about 380px) on both sides, so it stays symmetric */
+
 .hud-bottom-center { max-width: max(260px, calc(100% - 780px)); }
 .hud-bottom-center .narrator-subtitle { width: 100% !important; }
 .hud-bottom-center .g-feel { gap: 4px; }
 .hud-bottom-center .movement-help { display: flex !important; justify-content: center; flex-wrap: wrap; font-size: 12px; gap: 6px; text-shadow: 0 1px 6px #000; }
-/* the click-to-look prompt is centred but never reaches under the left hazard rail */
+
 .lock-hint { white-space: normal !important; max-width: 100%; }
 .hud-bottom-center .g-feel, .hud-bottom-center .star-angle-note, .stamina-block span { text-shadow: 0 1px 6px #000, 0 0 2px #000; }
 .stamina-block { display: flex; flex-direction: column; align-items: center; gap: 6px; width: min(220px, 70vw); }
@@ -37,7 +35,7 @@ export default `${base}\n${select}\n${hud}
   .hud-bottom-left { left: 10px !important; } .hud-bottom-right { right: 10px !important; }
   .hud-bottom-center { bottom: 118px; max-width: calc(100% - 24px); }
 }
-/* ---- fullscreen game: Back button, brand, debrief ---- */
+
 .game-back { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 32px; padding: 0 12px; border: 1px solid #76d8c540; border-radius: 6px; background: #0c161bd9; color: #b7e6d7; font-size: 12px; font-weight: 500; line-height: 1; letter-spacing: .08em; cursor: pointer; transition: background .15s, border-color .15s, color .15s; }
 .game-back:hover { background: #13262c; border-color: #76d8c5a0; color: #e2fff6; }
 .game-back:focus-visible, .again-btn:focus-visible { outline: 2px solid #79e2ce; outline-offset: 2px; }
@@ -45,9 +43,9 @@ export default `${base}\n${select}\n${hud}
 .select-nav { position: absolute; top: 14px; left: 18px; z-index: 6; display: flex; align-items: center; gap: 14px; }
 .select-brand { font-size: 14px; font-weight: 600; letter-spacing: .18em; color: #dbe8e0; white-space: nowrap; }
 .select-brand b { color: #63e6d7; font-weight: 600; }
-/* mission debrief: full viewport, grouped into header / report + leaderboard side by side / footer (stacked on small screens) */
+
 .result-shade { place-items: stretch !important; padding: 0 !important; }
-.postmortem-card { width: 100% !important; max-width: none !important; height: 100%; max-height: none !important; border: 0 !important; border-radius: 0 !important; overflow: auto; box-sizing: border-box; padding: calc(var(--game-bar-h, 53px) + clamp(12px, 2vw, 28px)) clamp(14px, 2.4vw, 36px) clamp(14px, 2.4vw, 36px) !important; /* clears the game's top bar, which stays (with Back) on the debrief */
+.postmortem-card { width: 100% !important; max-width: none !important; height: 100%; max-height: none !important; border: 0 !important; border-radius: 0 !important; overflow: auto; box-sizing: border-box; padding: calc(var(--game-bar-h, 53px) + clamp(12px, 2vw, 28px)) clamp(14px, 2.4vw, 36px) clamp(14px, 2.4vw, 36px) !important;
   display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); grid-template-areas: "head head" "main side" "foot foot"; gap: 20px clamp(18px, 3vw, 44px); align-content: start; }
 .pm-head { grid-area: head; } .pm-main { grid-area: main; min-width: 0; }
 .pm-side { grid-area: side; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
@@ -67,10 +65,10 @@ export default `${base}\n${select}\n${hud}
   .select-brand { display: none; }
   .postmortem-card { --game-bar-h: 48px; }
 }
-/* ---- planet picker ---- */
-/* the picker has no overlay bars: content starts at the top and stops above the (taller, 12px) footer, so cards are never covered */
+
+
 .select-content { inset: 0 !important; padding-top: 62px !important; }
-/* sound, quality, the arrows and Drop share one toolbar row next to the arrows; the dark footer bar is now plain text at the end of the page */
+
 .carousel-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
 .carousel-tools .settings-controls { position: static !important; flex-direction: row !important; margin: 0; }
 .carousel-arrows { display: flex; gap: 6px; }
@@ -80,7 +78,7 @@ export default `${base}\n${select}\n${hud}
 .carousel-tools .setting-chip { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px !important; }
 .carousel-arrows button { width: 36px !important; height: 36px !important; padding: 0 !important; }
 .carousel-tools .big-drop-button { min-height: 36px; padding: 8px 20px !important; display: inline-flex; align-items: center; gap: 8px; }
-/* the leaderboard follows the carousel with one small, intentional gap (no reserved row in between) */
+
 .session-board { margin-top: 18px !important; }
 @media (max-width: 640px) {
   .carousel-title { flex-direction: column; align-items: stretch !important; gap: 10px; }
@@ -90,18 +88,17 @@ export default `${base}\n${select}\n${hud}
   .carousel-tools .big-drop-button { order: 3; flex: 1 1 100%; justify-content: center; }
 }
 .select-footer { position: static !important; height: auto !important; background: none !important; border: 0 !important; padding: 8px 0 4px !important; font-size: 12px !important; }
-/* title block centred, search centred under it */
+
 .select-title-row { display: flex !important; flex-direction: column; align-items: center !important; text-align: center; gap: 16px; }
 .select-eyebrow { justify-content: center; }
 .select-title-row h1 { font-size: 40px !important; }
 .select-title-row p { font-size: 14px !important; }
 .select-content { overflow-y: auto; overflow-x: hidden; }
-/* larger cards; each is a normal-flow column: the planet model on top, the details below it, so nothing can overlap */
-/* curved carousel: a perspective stage; every card is positioned and posed by carouselLayout.js (inline styles) */
+
+
 .planet-carousel { display: block !important; position: relative; flex: none !important; min-height: 0 !important; overflow-x: clip !important; overflow-y: visible !important; padding: 0 !important; perspective: 1400px; perspective-origin: 50% 30%; outline: none; touch-action: pan-y; }
 .planet-card { position: absolute !important; left: 50%; top: 0; transform-origin: 50% 50%; will-change: transform; transition: transform .55s cubic-bezier(.22,.8,.2,1), opacity .35s ease, border-color .2s, box-shadow .2s; }
-/* opaque card face (it was ~86-93% opaque, so the starfield and the planet showed through it as a tint) with a round window
-   where the planet is drawn behind it; the old blurred aura is gone */
+
 .planet-card { background: linear-gradient(155deg, #0d171f, #0a1017 74%) !important;
   -webkit-mask: radial-gradient(circle at var(--hx, 50%) var(--hy, 40%), transparent var(--hr, 0px), #000 calc(var(--hr, 0px) + 1px));
   mask: radial-gradient(circle at var(--hx, 50%) var(--hy, 40%), transparent var(--hr, 0px), #000 calc(var(--hr, 0px) + 1px)); }

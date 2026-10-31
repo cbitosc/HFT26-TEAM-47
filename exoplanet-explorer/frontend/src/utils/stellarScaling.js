@@ -1,7 +1,7 @@
-// Measurements -> bounded visualization parameters for a host star. Pure functions (unit tested).
-//
-// The 3D scene uses visually useful scaling, NOT true astronomical dimensions. Everything here is bounded so a very
-// small red dwarf stays visible and a luminous star never blows out the scene or covers its planets.
+
+
+
+
 import { classifyStar } from './stellarClassification.js'
 import { starColor, rgbToHex } from './stellarColorMapping.js'
 import { stellarLuminosity } from './habitabilityCalculations.js'
@@ -9,28 +9,24 @@ import { stellarLuminosity } from './habitabilityCalculations.js'
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v))
 const isNum = (v) => typeof v === 'number' && Number.isFinite(v)
 
-/** Visual star size from stellar radius (solar radii): bounded so orbits always clear the star and its corona. */
+
 export const starScaleFromRadius = (r) => (isNum(r) && r > 0 ? clamp(1 + 0.6 * Math.log10(r), 0.65, 1.35) : 1)
 
-/** log10(L / L_sun): NASA's st_lum if reported, else derived from radius and temperature (Stefan-Boltzmann), else null. */
+
 export function luminosityLog(star) {
   const lum = stellarLuminosity(star ?? {})
   return lum ? Math.log10(lum.value) : null
 }
 
-/** Illustrative surface-activity level by class (cooler dwarfs are, in general, more spotted). Not a measurement. */
+
 const ACTIVITY = { M: 0.85, K: 0.65, G: 0.5, F: 0.35, A: 0.2, B: 0.12, O: 0.1 }
-/** Granulation visibility by class: strongest in Sun-like stars, faint in very cool and very hot ones. */
+
 const GRANULE_CONTRAST = { M: 0.55, K: 0.68, G: 0.82, F: 0.85, A: 0.5, B: 0.3, O: 0.25 }
 
 const mix = (a, b, t) => a.map((v, i) => v + (b[i] - v) * t)
 const hash = (s) => { let h = 2166136261; for (const ch of String(s ?? '')) h = Math.imul(h ^ ch.charCodeAt(0), 16777619); return (h >>> 0) / 4294967296 }
 
-/**
- * Everything the HostStar renderer needs, derived from the star's NASA properties.
- * star: system or planet record (star_temperature_k, star_radius_solar, star_luminosity_log_solar, star_spectral_type, ...)
- * Colours are 0..1 RGB arrays.
- */
+
 export function starVisuals(star) {
   const cls = classifyStar(star)
   const { rgb, basis } = starColor(star)
@@ -38,13 +34,13 @@ export function starVisuals(star) {
   const logL = luminosityLog(star)
   const c = cls.spectralClass
 
-  // Luminosity -> brightness, bounded so nothing is over- or under-exposed (a red dwarf is dimmer, never black).
+
   const bright = logL == null ? 1 : clamp(1 + 0.1 * logL, 0.72, 1.28)
   return {
     cls, colorBasis: basis, hex: rgbToHex(rgb), name: star?.host ?? star?.host_star ?? null,
     base,
-    hot: mix(base, [1, 1, 1], 0.3), // bright granule centres and active regions
-    cool: [base[0] * 0.7, base[1] * 0.5, base[2] * 0.34], // intergranular lanes and spots: cooler, deeper-toned, darker
+    hot: mix(base, [1, 1, 1], 0.3),
+    cool: [base[0] * 0.7, base[1] * 0.5, base[2] * 0.34],
     glow: mix(base, [1, 1, 1], 0.2),
     corona: mix(base, [1, 1, 1], 0.1),
     radiusScale: starScaleFromRadius(star?.star_radius_solar),
@@ -53,7 +49,7 @@ export function starVisuals(star) {
     coronaStrength: clamp(0.8 + 0.12 * (logL ?? 0), 0.5, 1.15),
     activity: ACTIVITY[c] ?? 0.4,
     granuleContrast: GRANULE_CONTRAST[c] ?? 0.6,
-    seed: hash(star?.host ?? star?.host_star) * 100, // same host -> same illustrative pattern, every time
+    seed: hash(star?.host ?? star?.host_star) * 100,
     luminosityLog: logL,
   }
 }

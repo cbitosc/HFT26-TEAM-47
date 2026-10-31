@@ -4,11 +4,7 @@ import { ChevronDown } from 'lucide-react'
 
 const SPRING = { type: 'spring', stiffness: 420, damping: 34 }
 
-/**
- * Compact "dynamic island" section navigator. Collapsed it is a small pill showing the section being read; it expands
- * (smoothly, via layout animation) into the full list of destinations and collapses again after a choice, on Escape
- * or a click outside. `items` = [{ id, label, icon }]; `active` follows the scroll position.
- */
+
 export default function IslandNav({ items, active, onSelect, label = 'Sections' }) {
   const [open, setOpen] = useState(false)
   const box = useRef(null)

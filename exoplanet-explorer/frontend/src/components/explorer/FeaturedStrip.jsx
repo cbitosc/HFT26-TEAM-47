@@ -1,6 +1,6 @@
 import PlanetArt from '../PlanetArt.jsx'
 
-// Compact featured-planet chips (from /api/planets/featured).
+
 export default function FeaturedStrip({ planets, selectedId, onSelect, error }) {
   if (error) return <p className="text-xs text-amber-300/80">Could not load featured planets.</p>
   if (!planets.length) return null

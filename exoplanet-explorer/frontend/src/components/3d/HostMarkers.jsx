@@ -5,7 +5,7 @@ import { AdditiveBlending, Color } from 'three'
 import { SUN_X, SUN_Y } from '../../utils/galaxy.js'
 import { starColorFromTemp } from './scaling.js'
 
-// One marker per known exoplanet host system, at its NASA-derived position. Only systems in the app's dataset appear.
+
 const VERT = `
   attribute float aSel; attribute vec3 aColor; attribute float aShow;
   uniform float uPx; uniform float uTime; varying vec3 vColor; varying float vSel; varying float vShow;
@@ -47,13 +47,13 @@ export default function HostMarkers({ systems, places, selectedId, hiddenId, onS
   const selAttr = useRef(), showAttr = useRef()
   useFrame((state) => {
     uniforms.uTime.value = state.clock.elapsedTime
-    // Picking radius follows the camera distance, so markers stay clickable at every zoom level.
+
     const d = Math.hypot(state.camera.position.x - sun.current[0], state.camera.position.y - sun.current[1], state.camera.position.z)
     state.raycaster.params.Points = { threshold: Math.max(0.0004, d * 0.012) }
     if (selAttr.current && showAttr.current) {
       systems.forEach((s, i) => {
         geo.sel[i] = s.id === selectedId ? 1 : 0
-        geo.show[i] = s.id === hiddenId ? 0 : 1 // the system being drawn in detail replaces its own marker
+        geo.show[i] = s.id === hiddenId ? 0 : 1
       })
       selAttr.current.needsUpdate = true
       showAttr.current.needsUpdate = true

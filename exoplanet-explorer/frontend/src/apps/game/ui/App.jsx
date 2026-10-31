@@ -30,7 +30,7 @@ export default function App({onExit}){
     const updated=current&&planets.find(p=>p.pl_name===current.pl_name);
     if(updated)selectPlanet(updated);
   },[phase,catalogSource,source,planets,selectPlanet]);
-  // Back: from the planet picker it leaves the game (the site's router, once); from a run or the debrief it returns to the picker.
+
   const leaving=React.useRef(false);
   const goBack=()=>{if(phase==='select'){if(leaving.current)return;leaving.current=true;onExit?.();}else useGame.getState().reset();};
   const onMute=()=>{

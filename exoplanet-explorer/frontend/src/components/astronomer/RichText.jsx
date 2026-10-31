@@ -1,5 +1,5 @@
-// Tiny, safe renderer for the model's light markdown (headings, **bold**, bullet/numbered lists).
-// Builds React elements only; never injects HTML.
+
+
 function Inline({ text }) {
   return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
     part.startsWith('**') && part.endsWith('**') && part.length > 4

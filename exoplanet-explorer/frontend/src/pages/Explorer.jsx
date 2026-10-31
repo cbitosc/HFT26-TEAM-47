@@ -34,7 +34,7 @@ const BackButton = ({ onClick }) => (
   <button className="glass-btn px-4 py-2 text-xs" onClick={onClick}><ArrowLeft className="h-3.5 w-3.5" /> Back to System</button>
 )
 
-// Name overlay for the enlarged planet (left side, over the 3D view).
+
 function PlanetCaption({ planet }) {
   const size = classifyPlanetSize(planet.radius_earth)
   return (
@@ -46,11 +46,11 @@ function PlanetCaption({ planet }) {
   )
 }
 
-// exoverse: the Milky Way, and inside it every known exoplanet host system. Hierarchy:
-//   /               Milky Way overview (all host systems marked at their NASA-derived positions)
-//   /system/:id     one star system: its host star, exoplanets and orbits
-//   /planet/:id     one exoplanet, with its properties and habitability screening
-// The routes share this component (children of "/"), so the WebGL canvas never remounts.
+
+
+
+
+
 export default function Explorer() {
   const all = useApi('/planets')
   const featured = useApi('/planets/featured')
@@ -65,12 +65,12 @@ export default function Explorer() {
 
   const [tab, setTab] = useState('systems')
   const [filters, setFilters] = useState(INITIAL_FILTERS)
-  const [sheet, setSheet] = useState('hidden') // small screens: which glass sheet is open
-  const [rightOpen, setRightOpen] = useState(true) // wide screens: details panel collapsed to give the 3D view more room
+  const [sheet, setSheet] = useState('hidden')
+  const [rightOpen, setRightOpen] = useState(true)
   const [sceneInfo, setSceneInfo] = useState({})
-  const [view, setView] = useState('galaxy') // what the camera has arrived at: 'galaxy' | 'system'
+  const [view, setView] = useState('galaxy')
   const [travelling, setTravelling] = useState(false)
-  const [insets, setInsets] = useState(ZERO_INSETS) // screen area covered by UI, in px (the 3D scene centres in the rest)
+  const [insets, setInsets] = useState(ZERO_INSETS)
   const scene = useRef(null)
   const dock = useRef(null)
   const leftRef = useRef(null)
@@ -83,7 +83,7 @@ export default function Explorer() {
   const setQuery = (v) => { const next = new URLSearchParams(params); v ? next.set('q', v) : next.delete('q'); setParams(next, { replace: true }) }
   const visible = useMemo(() => (planets ? filterAndSort(planets, flags, query, filters) : []), [planets, flags, query, filters])
   const systems = useMemo(() => groupSystems(planets ?? []), [planets])
-  // Real relative positions from NASA galactic coordinates and distance (flagged "illustrative" when unavailable).
+
   const places = useMemo(() => Object.fromEntries(systems.map((s) => [s.id, systemPosition(s)])), [systems])
   const visibleSystems = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -94,9 +94,9 @@ export default function Explorer() {
   const systemId = systemRouteId ?? (planet?.host_star ? slug(planet.host_star) : undefined)
   const system = systems.find((s) => s.id === systemId)
   const hasDetails = mode !== 'galaxy'
-  const detail = mode === 'planet' && !!planet // the enlarged planet view: 3D planet on the left, scientific panel on the right
+  const detail = mode === 'planet' && !!planet
 
-  useEffect(() => { // the explorer is a fixed full-screen app; never scroll the page behind it
+  useEffect(() => {
     const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     return () => { document.body.style.overflow = prev }
@@ -104,7 +104,7 @@ export default function Explorer() {
 
   useEffect(() => { cameraReset.current = () => scene.current?.reset(); return () => { cameraReset.current = null } }, [cameraReset])
 
-  // Esc leaves the enlarged planet view (not while typing, or while the section island handles the key)
+
   useEffect(() => {
     if (!detail) return undefined
     const onKey = (e) => {
@@ -118,10 +118,10 @@ export default function Explorer() {
 
   useEffect(() => {
     if (!planet) return
-    try { sessionStorage.setItem(LAST_PLANET_KEY, planet.id) } catch { /* storage unavailable */ }
-  }, [planet?.id]) // eslint-disable-line react-hooks/exhaustive-deps
+    try { sessionStorage.setItem(LAST_PLANET_KEY, planet.id) } catch {  }
+  }, [planet?.id])
 
-  // Publish the bottom dock's height so the panels end a consistent gap above it.
+
   useEffect(() => {
     const set = () => document.documentElement.style.setProperty('--dock-h', `${dock.current.offsetHeight}px`)
     set()
@@ -130,14 +130,14 @@ export default function Explorer() {
     return () => ro.disconnect()
   }, [])
 
-  // Measure the panels' real footprint so the 3D scene is centred and framed in the space between them.
+
   useEffect(() => {
     const measure = () => {
       let next = ZERO_INSETS
       const navBottom = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--topbar-h')) || 0
       const r = rightRef.current?.getBoundingClientRect()
       if (mobile) {
-        // enlarged planet on small screens: the planet takes the top, the scientific panel stacks below it
+
         if (detail && r) next = { left: 0, right: 0, top: Math.round(navBottom + 44), bottom: Math.round(innerHeight - r.top + 8) }
       } else if ((leftRef.current || r) && dock.current) {
         const l = leftRef.current?.getBoundingClientRect()
@@ -182,7 +182,7 @@ export default function Explorer() {
     : mode === 'galaxy' ? 'Host-star positions from NASA coordinates · galaxy structure illustrative'
     : sceneInfo.orbit ? 'Orbit radius is an illustrative default: semi-major axis unavailable' : 'Orbits and sizes illustrative, not to scale'
 
-  // Panels sit one --gap below the navbar and one --gap above the dock, inside the same max-width as the navbar.
+
   const panelBox = { top: 'calc(var(--topbar-h, 5rem) + var(--gap))', bottom: 'calc(var(--dock-h, 3.5rem) + 0.75rem + var(--gap))' }
 
   return (

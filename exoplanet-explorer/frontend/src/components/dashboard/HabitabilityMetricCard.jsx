@@ -1,7 +1,7 @@
 import Unavailable from './Unavailable.jsx'
 import { fmt } from '../../format.js'
 
-// `kind` separates what NASA reported from what this app calculated.
+
 export default function HabitabilityMetricCard({ metric: m, kind, valueText, children }) {
   return (
     <div className={`rounded-xl border p-4 ${m.available ? 'glass-tile' : 'border-dashed border-white/10'}`}>

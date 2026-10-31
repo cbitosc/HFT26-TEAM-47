@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import  { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
 import { ChevronDown, CircleHelp, Search, SlidersHorizontal } from 'lucide-react';
 import { cumulativeByYear, perYearByMethod, medianByYear, yearBounds, hasNumber } from './data/timeline.js';

@@ -1,8 +1,8 @@
-// Shared GLSL for the host-star renderer. All patterns are procedural and driven by a 3D position on the unit
-// sphere, so they wrap the star without seams or pole pinching. They are ILLUSTRATIVE: granulation, plasma flow,
-// spots and bright regions are generated, not observed surface maps of any particular star.
 
-export const NOISE = /* glsl */ `
+
+
+
+export const NOISE =  `
   float hash13(vec3 p3) { p3 = fract(p3 * .1031); p3 += dot(p3, p3.zyx + 31.32); return fract((p3.x + p3.y) * p3.z); }
   vec3 hash33(vec3 p3) { p3 = fract(p3 * vec3(.1031, .1030, .0973)); p3 += dot(p3, p3.yxz + 33.33); return fract((p3.xxy + p3.yxx) * p3.zyx); }
 
@@ -30,7 +30,7 @@ export const NOISE = /* glsl */ `
   }
 `
 
-export const SURFACE_VERT = /* glsl */ `
+export const SURFACE_VERT =  `
   varying vec3 vObj; varying vec3 vN; varying vec3 vV;
   void main() {
     vObj = position;
@@ -41,7 +41,7 @@ export const SURFACE_VERT = /* glsl */ `
   }
 `
 
-export const SURFACE_FRAG = /* glsl */ `
+export const SURFACE_FRAG =  `
   precision highp float;
   uniform float uTime, uSeed, uIntensity, uActivity, uContrast;
   uniform vec3 uBase, uHot, uCool;
@@ -84,13 +84,13 @@ export const SURFACE_FRAG = /* glsl */ `
   }
 `
 
-export const GLOW_VERT = /* glsl */ `
+export const GLOW_VERT =  `
   varying vec2 vUv;
   void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
 `
 
-// Outer corona: soft, temperature-coloured, with gentle angular streamers. Fully transparent at the outer edge.
-export const CORONA_FRAG = /* glsl */ `
+
+export const CORONA_FRAG =  `
   precision highp float;
   uniform vec3 uColor; uniform float uStrength, uInner, uTime, uSeed;
   varying vec2 vUv;
@@ -107,8 +107,8 @@ export const CORONA_FRAG = /* glsl */ `
   }
 `
 
-// Tight atmospheric glow hugging the limb.
-export const GLOW_FRAG = /* glsl */ `
+
+export const GLOW_FRAG =  `
   precision highp float;
   uniform vec3 uColor; uniform float uStrength, uInner;
   varying vec2 vUv;

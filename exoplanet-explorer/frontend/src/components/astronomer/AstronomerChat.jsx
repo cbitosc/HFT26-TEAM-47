@@ -14,7 +14,7 @@ export default function AstronomerChat({ planet = null, height = 'h-[520px]' }) 
   const scroller = useRef(null)
   const suggestions = useMemo(() => getSuggestions(planet), [planet])
 
-  // Scroll only the chat box (not the page) to the latest message.
+
   useEffect(() => {
     const el = scroller.current
     if (el) el.scrollTop = el.scrollHeight

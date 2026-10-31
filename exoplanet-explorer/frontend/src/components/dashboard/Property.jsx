@@ -1,6 +1,6 @@
 import Unavailable from './Unavailable.jsx'
 
-// One labelled measurement tile. `value` null/undefined renders the missing-data indicator.
+
 export default function Property({ label, value, sub, field, tag, derived = false, children }) {
   const missing = value == null
   return (

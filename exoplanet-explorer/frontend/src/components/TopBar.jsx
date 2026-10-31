@@ -12,7 +12,7 @@ const PAGES = [
   { id: '/game', label: 'Game', icon: Gamepad2 },
 ]
 
-// Minimal, transparent navbar: brand (left), page navigation island (centre), Controls (right). Page links live in the Controls panel.
+
 export default function TopBar() {
   const { pathname } = useLocation()
   const navigate = useNavigate()
@@ -21,7 +21,7 @@ export default function TopBar() {
   const page = pathname.startsWith('/compare') ? '/compare' : pathname.startsWith('/astronomer') ? '/astronomer' : pathname.startsWith('/timeline') ? '/timeline' : pathname.startsWith('/game') ? '/game' : '/'
   const explorer = pathname === '/' || pathname.startsWith('/planet') || pathname.startsWith('/system')
 
-  // Publish the bar's bottom edge so full-screen panels can sit a consistent gap below it.
+
   useLayoutEffect(() => {
     const set = () => document.documentElement.style.setProperty('--topbar-h', `${Math.round(bar.current.getBoundingClientRect().bottom)}px`)
     set()

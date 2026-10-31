@@ -2,8 +2,8 @@ import { useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Stars } from '@react-three/drei'
 
-// Distant background stars: they follow the camera, so the backdrop is continuous at every zoom level
-// (the galaxy itself provides the parallax).
+
+
 export default function StarField({ quality = 'high' }) {
   const group = useRef()
   useFrame(({ camera }) => group.current?.position.copy(camera.position))

@@ -2,7 +2,7 @@ import { SearchX } from 'lucide-react'
 import { starColorFromTemp } from '../3d/scaling.js'
 import { fmt } from '../../format.js'
 
-// Star systems (host stars) with their confirmed exoplanet count and distance from Earth, when known.
+
 export default function SystemList({ systems, activeId, onSelect }) {
   return (
     <div className="relative -mx-1 min-h-0 flex-1 overflow-y-auto px-1" role="list">

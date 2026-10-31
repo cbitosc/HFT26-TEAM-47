@@ -1,9 +1,9 @@
-// Stellar classification from NASA measurements. Pure functions (unit tested).
-//
-// Rules: effective temperature (st_teff) decides the visual class; NASA's reported spectral type (st_spectype)
-// decides the displayed LABEL when it exists. Nothing is invented: with neither, the star is "unavailable".
 
-/** [class, lower bound K, upper bound K) for the approximate visual classes. */
+
+
+
+
+
 export const CLASS_RANGES = [
   ['O', 30000, Infinity],
   ['B', 10000, 30000],
@@ -21,7 +21,7 @@ export function classFromTemperature(t) {
   return CLASS_RANGES.find(([, lo, hi]) => t >= lo && t < hi)[0]
 }
 
-/** "M8.0 V" -> { cls: 'M', subclass: 8, lumClass: 'V' }. Returns null for anything that is not an O-M type. */
+
 export function parseSpectralType(s) {
   if (typeof s !== 'string') return null
   const m = s.trim().match(/^([OBAFGKM])\s*(\d+(?:\.\d+)?)?\s*[-/]?\s*(Ia|Ib|III|II|IV|V|I)?\b/i)
@@ -33,7 +33,7 @@ export function parseSpectralType(s) {
 
 const COLOUR_WORD = { O: 'Blue', B: 'Blue-white', A: 'White', F: 'Yellow-white', G: 'Yellow', K: 'Orange', M: 'Red' }
 
-/** "Red dwarf", "Orange giant", "Blue-white star"... only as specific as the data allows. */
+
 function describe(cls, lumClass, radius) {
   const word = COLOUR_WORD[cls]
   if (['O', 'B', 'A'].includes(cls) && !lumClass) return `${word} star`
@@ -42,15 +42,11 @@ function describe(cls, lumClass, radius) {
   else if (lumClass === 'IV') kind = 'subgiant'
   else if (lumClass === 'III' || lumClass === 'II') kind = 'giant'
   else if (lumClass === 'Ia' || lumClass === 'Ib' || lumClass === 'I') kind = 'supergiant'
-  else if (isNum(radius)) kind = radius >= 3 ? 'giant' : 'dwarf' // no luminosity class: infer only from a measured radius
+  else if (isNum(radius)) kind = radius >= 3 ? 'giant' : 'dwarf'
   return kind ? `${word} ${kind}` : `${word} star`
 }
 
-/**
- * star: { star_temperature_k, star_spectral_type, star_radius_solar }
- * -> { available, spectralClass, label, descriptor, basis, tempClass, spectralTypeClass, mismatch }
- *    basis: 'spectral-type' | 'temperature' | 'unavailable' (what the displayed class rests on)
- */
+
 export function classifyStar(star) {
   const tempClass = classFromTemperature(star?.star_temperature_k)
   const parsed = parseSpectralType(star?.star_spectral_type)
@@ -63,6 +59,6 @@ export function classifyStar(star) {
     available: true, spectralClass: cls, label: `${cls}-type · ${descriptor}`, descriptor,
     basis: parsed ? 'spectral-type' : 'temperature',
     tempClass, spectralTypeClass: parsed?.cls ?? null,
-    mismatch: !!(parsed && tempClass && parsed.cls !== tempClass), // e.g. M1 star at 3788 K: a boundary case, colour still follows temperature
+    mismatch: !!(parsed && tempClass && parsed.cls !== tempClass),
   }
 }

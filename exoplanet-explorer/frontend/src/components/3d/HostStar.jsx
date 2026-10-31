@@ -8,15 +8,7 @@ import { starVisuals } from '../../utils/stellarScaling.js'
 const lerp = (a, b, k) => a + (b - a) * k
 const lerpArr = (cur, target, k) => { for (let i = 0; i < cur.length; i++) cur[i] = lerp(cur[i], target[i], k) }
 
-/**
- * The host star, composed from its real NASA measurements (see utils/stellarScaling.js):
- *   colour <- effective temperature   size <- stellar radius   brightness / corona / light <- luminosity
- * Layers: procedural surface (granulation, plasma flow, illustrative spots), tight limb glow, outer corona, and a few
- * decorative prominence loops. ONE animation loop updates every uniform. If the star's properties change while it is
- * mounted, colour, brightness and size are interpolated rather than switched in a single frame.
- *
- * The surface patterns and prominences are procedural illustrations, not observed features of this particular star.
- */
+
 export default function HostStar({ star, paused = false }) {
   const visuals = useMemo(() => star ?? starVisuals(null), [star])
   const target = useRef(visuals)
@@ -33,14 +25,14 @@ export default function HostStar({ star, paused = false }) {
 
   useFrame(({ camera }, dt) => {
     const t = target.current, c = cur.current
-    const k = 1 - Math.exp(-Math.min(dt, 0.1) * 3) // smooth approach, independent of frame rate
+    const k = 1 - Math.exp(-Math.min(dt, 0.1) * 3)
     lerpArr(c.base, t.base, k); lerpArr(c.hot, t.hot, k); lerpArr(c.cool, t.cool, k); lerpArr(c.glow, t.glow, k); lerpArr(c.corona, t.corona, k)
     c.scale = lerp(c.scale, t.radiusScale, k); c.emissive = lerp(c.emissive, t.emissive, k); c.light = lerp(c.light, t.light, k)
     c.strength = lerp(c.strength, t.coronaStrength, k); c.activity = lerp(c.activity, t.activity, k); c.contrast = lerp(c.contrast, t.granuleContrast, k)
-    if (!paused) time.current += Math.min(dt, 0.1) // "planetary motion" off also freezes the surface
+    if (!paused) time.current += Math.min(dt, 0.1)
 
     group.current.scale.setScalar(c.scale)
-    billboard.current.quaternion.copy(camera.quaternion) // corona, glow and loops always face the camera
+    billboard.current.quaternion.copy(camera.quaternion)
 
     const s = surface.current?.uniforms
     if (s) {

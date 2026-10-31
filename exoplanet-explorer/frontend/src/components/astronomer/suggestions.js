@@ -1,4 +1,4 @@
-// Suggested questions follow the selected planet. Wording only; answers always come from the backend/AI.
+
 export function getSuggestions(planet) {
   if (!planet) {
     return [

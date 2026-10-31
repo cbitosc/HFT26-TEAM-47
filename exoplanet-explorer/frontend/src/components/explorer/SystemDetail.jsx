@@ -15,7 +15,7 @@ function Stat({ label, value, sub, wide }) {
   )
 }
 
-// Right glass panel for a star system: the star's data and every planet in the system (click one to inspect it).
+
 export default function SystemDetail({ system: s, onSelectPlanet }) {
   const color = starColorFromTemp(s.star_temperature_k)
   const lum = stellarLuminosity({ star_luminosity_log_solar: s.star_luminosity_log_solar, star_radius_solar: s.star_radius_solar, star_temperature_k: s.star_temperature_k })
