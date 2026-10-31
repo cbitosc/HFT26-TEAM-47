@@ -1,0 +1,11 @@
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App.jsx';
+import './style.css';
+import './components.css';
+import './flash.css';
+import './timeline.css';
+import './theme.css';
+import './tidy.css';
+import './exoverse.css';
+createRoot(document.getElementById('root')).render(<React.StrictMode><App/></React.StrictMode>);

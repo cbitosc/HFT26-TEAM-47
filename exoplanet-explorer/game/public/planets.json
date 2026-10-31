@@ -1,0 +1,10 @@
+[
+ {"pl_name":"Earth","hostname":"Sun","pl_rade":1,"pl_bmasse":1,"pl_orbper":365.25,"pl_orbsmax":1,"pl_eqt":255,"pl_insol":1,"st_teff":5772,"st_rad":1,"st_mass":1,"sy_dist":0.0000158,"disc_year":null,"discoverymethod":"Solar System reference"},
+ {"pl_name":"TRAPPIST-1 e","hostname":"TRAPPIST-1","pl_rade":0.92,"pl_bmasse":0.69,"pl_orbper":6.10,"pl_orbsmax":0.029,"pl_eqt":251,"pl_insol":0.65,"st_teff":2566,"st_rad":0.12,"st_mass":0.09,"sy_dist":12.43,"disc_year":2017,"discoverymethod":"Transit"},
+ {"pl_name":"TRAPPIST-1 f","hostname":"TRAPPIST-1","pl_rade":1.05,"pl_bmasse":1.04,"pl_orbper":9.21,"pl_orbsmax":0.038,"pl_eqt":219,"pl_insol":0.38,"st_teff":2566,"st_rad":0.12,"st_mass":0.09,"sy_dist":12.43,"disc_year":2017,"discoverymethod":"Transit"},
+ {"pl_name":"Proxima Cen b","hostname":"Proxima Centauri","pl_rade":1.08,"pl_bmasse":1.27,"pl_orbper":11.19,"pl_orbsmax":0.0485,"pl_eqt":234,"pl_insol":0.65,"st_teff":3042,"st_rad":0.14,"st_mass":0.12,"sy_dist":1.30,"disc_year":2016,"discoverymethod":"Radial Velocity"},
+ {"pl_name":"Kepler-186 f","hostname":"Kepler-186","pl_rade":1.17,"pl_bmasse":null,"pl_orbper":129.94,"pl_orbsmax":0.432,"pl_eqt":188,"pl_insol":0.29,"st_teff":3788,"st_rad":0.47,"st_mass":0.54,"sy_dist":177.6,"disc_year":2014,"discoverymethod":"Transit"},
+ {"pl_name":"55 Cnc e","hostname":"55 Cancri","pl_rade":1.88,"pl_bmasse":7.99,"pl_orbper":0.74,"pl_orbsmax":0.0154,"pl_eqt":1950,"pl_insol":2400,"st_teff":5196,"st_rad":0.94,"st_mass":0.91,"sy_dist":12.59,"disc_year":2004,"discoverymethod":"Radial Velocity"},
+ {"pl_name":"HD 209458 b","hostname":"HD 209458","pl_rade":15.5,"pl_bmasse":220,"pl_orbper":3.52,"pl_orbsmax":0.047,"pl_eqt":1450,"pl_insol":900,"st_teff":6065,"st_rad":1.20,"st_mass":1.15,"sy_dist":47.1,"disc_year":1999,"discoverymethod":"Transit"},
+ {"pl_name":"Kepler-452 b","hostname":"Kepler-452","pl_rade":1.63,"pl_bmasse":null,"pl_orbper":384.84,"pl_orbsmax":1.05,"pl_eqt":265,"pl_insol":1.1,"st_teff":5757,"st_rad":1.11,"st_mass":1.04,"sy_dist":551.7,"disc_year":2015,"discoverymethod":"Transit"}
+]

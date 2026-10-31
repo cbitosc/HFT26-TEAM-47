@@ -1,0 +1,1 @@
+.frontier-pulse{animation:frontierPulse .72s ease-out 1;transform-box:fill-box;transform-origin:center}@keyframes frontierPulse{0%{opacity:.9;transform:scale(.65)}100%{opacity:0;transform:scale(2.8)}}
