@@ -1,0 +1,9 @@
+{
+  "installCommand": "npm install --prefix exoplanet-explorer/frontend",
+  "buildCommand": "npm run build --prefix exoplanet-explorer/frontend",
+  "outputDirectory": "exoplanet-explorer/frontend/dist",
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://exoverse-backend.onrender.com/api/:path*" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
