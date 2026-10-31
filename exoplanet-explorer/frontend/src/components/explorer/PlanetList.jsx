@@ -37,9 +37,8 @@ export default function PlanetList({ planets, selectedId, onSelect, onClear, loa
               <i className="h-2 w-2 flex-none rounded-full" style={{ background: active ? '#a5d8ff' : 'transparent', boxShadow: active ? '0 0 10px #a5d8ff' : 'inset 0 0 0 1.5px rgba(200,215,255,.55)' }} aria-hidden />
               <span className="min-w-0 flex-1">
                 <strong className="block truncate text-sm font-normal">{p.name}</strong>
-                <small className="block truncate text-xs text-slate-400">Star system: <span className="text-slate-300">{p.host_star ?? 'unknown'}</span></small>
+                <small className="block truncate text-xs text-slate-400">{p.host_star ?? 'Unknown host'} · {shortClass(p)}</small>
               </span>
-              <span className="caps flex-none text-xs text-slate-400">{shortClass(p)}</span>
             </button>
           </div>
         )

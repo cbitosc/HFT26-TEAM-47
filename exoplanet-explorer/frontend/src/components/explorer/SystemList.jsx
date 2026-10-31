@@ -16,7 +16,7 @@ export default function SystemList({ systems, activeId, onSelect }) {
               <span className="min-w-0 flex-1">
                 <strong className="block truncate text-sm font-normal">{s.host}</strong>
                 <small className="block truncate text-xs text-slate-400">
-                  {s.count} confirmed exoplanet{s.count === 1 ? '' : 's'}{s.distance_light_years != null ? ` · ${fmt(s.distance_light_years, 1)} ly` : ''}
+                  {s.count} planet{s.count === 1 ? '' : 's'}{s.distance_light_years != null ? ` · ${fmt(s.distance_light_years, 1)} ly` : ''}
                 </small>
               </span>
               <span className="flex-none text-xs tabular-nums text-slate-300" aria-label={`${s.count} exoplanets`}>{s.count}</span>

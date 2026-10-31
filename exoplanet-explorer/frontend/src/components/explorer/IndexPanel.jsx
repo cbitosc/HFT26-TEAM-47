@@ -22,13 +22,11 @@ export default function IndexPanel({
     <section className="glass-lite flex max-h-full min-h-0 flex-col" aria-label="Deep space index">
       <div className="flex min-h-0 flex-1 flex-col gap-3 px-4 pb-2 pt-4">
         <div>
-          <div className="caps text-slate-400">Deep space index</div>
-          <div className="mt-0.5 flex items-center justify-between gap-2">
-            <h2 className="text-xl font-light tracking-wide">Discover worlds</h2>
-            <span className="caps rounded-full border border-white/15 px-2.5 py-1 text-xs text-slate-300" aria-live="polite">
-              {loading ? '…' : `${total} targets`}
-            </span>
+          <div className="flex items-baseline justify-between gap-2">
+            <div className="caps whitespace-nowrap text-slate-400">Deep space index</div>
+            <span className="whitespace-nowrap text-xs tabular-nums text-slate-300" aria-live="polite">{loading ? '…' : `${total} targets`}</span>
           </div>
+          <h2 className="mt-1 whitespace-nowrap text-xl font-light tracking-wide">Discover worlds</h2>
         </div>
 
         <label className="flex items-center gap-2 border-b border-white/15 pb-2 text-xs text-slate-300 focus-within:border-sky-200/60">
@@ -40,7 +38,7 @@ export default function IndexPanel({
         <div className="flex gap-1.5" role="tablist" aria-label="Index sections">
           {TABS.map((t) => (
             <button key={t.id} role="tab" aria-selected={tab === t.id} onClick={() => onTab(t.id)}
-              className={`caps flex-1 rounded-full border py-2 text-xs transition ${tab === t.id ? 'border-white/25 bg-white/[0.12] text-white' : 'border-transparent text-slate-400 hover:text-slate-200'}`}>
+              className={`flex-1 whitespace-nowrap rounded-full border py-2 text-sm transition ${tab === t.id ? 'border-white/25 bg-white/[0.12] text-white' : 'border-transparent text-slate-400 hover:text-slate-200'}`}>
               {t.label}
             </button>
           ))}
@@ -64,9 +62,9 @@ export default function IndexPanel({
         {tab === 'systems' && !loading && <SystemList systems={systems} activeId={activeSystemId} onSelect={onSelectSystem} />}
       </div>
 
-      <footer className="caps flex items-center justify-between border-t border-white/10 px-4 py-3 text-xs text-slate-400">
-        <span>NASA Archive + Local Data</span>
-        <button className="text-slate-200 hover:text-white" onClick={onExplore}>Explore ↗</button>
+      <footer className="flex items-center justify-between gap-2 border-t border-white/10 px-4 py-3 text-xs text-slate-400">
+        <span className="min-w-0 truncate">NASA archive + local data</span>
+        <button className="flex-none whitespace-nowrap text-slate-200 hover:text-white" onClick={onExplore}>Explore ↗</button>
       </footer>
     </section>
   )
