@@ -1,11 +1,13 @@
+import { Suspense, lazy } from 'react'
 import { Navigate, Routes, Route, useMatch } from 'react-router-dom'
 import TopBar from './components/TopBar.jsx'
 import Explorer from './pages/Explorer.jsx'
-import Compare from './pages/Compare.jsx'
-import Astronomer from './pages/Astronomer.jsx'
-import Game from './pages/Game.jsx'
-import Timeline from './pages/Timeline.jsx'
 import SpaceBackdrop from './components/SpaceBackdrop.jsx'
+
+const Compare = lazy(() => import('./pages/Compare.jsx'))
+const Astronomer = lazy(() => import('./pages/Astronomer.jsx'))
+const Game = lazy(() => import('./pages/Game.jsx'))
+const Timeline = lazy(() => import('./pages/Timeline.jsx'))
 import { UniverseSettingsProvider } from './context/UniverseSettings.jsx'
 
 export default function App() {
@@ -19,6 +21,7 @@ export default function App() {
       {!onExplorer && !onGame && <SpaceBackdrop />}
       <div className="relative z-10 min-h-screen overflow-x-hidden" style={onExplorer || onGame ? undefined : { paddingTop: 'calc(var(--topbar-h, 5rem) + 0.25rem)' }}>
         {!onGame && <TopBar />}
+        <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<Explorer />}>
             <Route path="planet/:id" element={null} />
@@ -30,6 +33,7 @@ export default function App() {
           <Route path="/game" element={<Game />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        </Suspense>
       </div>
     </UniverseSettingsProvider>
   )

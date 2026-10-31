@@ -1,10 +1,13 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import ShadowApp from '../apps/ShadowApp.jsx'
+import { GAME_FONTS, loadFonts } from '../apps/fonts.js'
 import GameApp from '../apps/game/ui/App.jsx'
 import css from '../apps/game/styles.js'
 
 // Survive 60 Seconds, fullscreen and part of the page (source: src/apps/game; its narration API runs from game/ via /game-api).
 // The game has no site navbar; its own Back button leaves through the router (no page reload).
+loadFonts(GAME_FONTS)
+
 export default function Game() {
   const navigate = useNavigate()
   const { key } = useLocation()
