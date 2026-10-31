@@ -171,3 +171,14 @@ def test_seed_snapshot_is_served_when_nasa_is_down_and_there_is_no_cache(tmp_pat
     assert [p["id"] for p in cache.get_dataset()["planets"]] == ["x-b"]
     assert [p["id"] for p in cache.get_dataset()["planets"]] == ["x-b"]
     assert len(calls) == 1  # the second request did not retry NASA
+
+
+def test_fresh_seed_is_served_without_calling_nasa(tmp_path, monkeypatch):
+    import json, time
+    from app import cache, config
+    seed = tmp_path / "seed.json"
+    seed.write_text(json.dumps({"schema_version": cache.SCHEMA_VERSION, "fetched_at": time.time(), "planets": [{"id": "y-b", "name": "Y b"}]}))
+    monkeypatch.setattr(config, "CACHE_FILE", tmp_path / "missing_cache.json")
+    monkeypatch.setattr(config, "SEED_FILE", seed)
+    monkeypatch.setattr(cache, "fetch_raw_planets", lambda: pytest.fail("NASA must not be called"))
+    assert [p["id"] for p in cache.get_dataset()["planets"]] == ["y-b"]

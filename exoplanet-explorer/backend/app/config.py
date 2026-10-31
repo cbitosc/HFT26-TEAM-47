@@ -24,6 +24,7 @@ NASA_TAP_URL = os.getenv("NASA_TAP_URL", "https://exoplanetarchive.ipac.caltech.
 CACHE_FILE = BASE_DIR / os.getenv("CACHE_FILE", "data/planets_cache.json")
 # A committed snapshot of the dataset: served when there is no cache yet and NASA cannot be reached (e.g. a fresh deploy).
 SEED_FILE = BASE_DIR / os.getenv("SEED_FILE", "data/seed_cache.json")
+SEED_MAX_AGE_HOURS = float(os.getenv("SEED_MAX_AGE_HOURS", "720"))  # the snapshot counts as fresh for 30 days when there is no cache
 CACHE_MAX_AGE_HOURS = float(os.getenv("CACHE_MAX_AGE_HOURS", "24"))
 NEARBY_LIMIT = int(os.getenv("NEARBY_LIMIT", "40"))
 CORS_ORIGINS = [o.strip() for o in os.getenv(

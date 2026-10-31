@@ -58,7 +58,10 @@ def get_dataset(force_refresh: bool = False) -> dict:
     cached = read_cache()
     if cached and not force_refresh and not is_stale(cached):
         return with_derived(cached)
-    fallback = cached or read_seed()
+    seed = None if cached else read_seed()
+    if seed and not force_refresh and time.time() - seed.get("fetched_at", 0) < config.SEED_MAX_AGE_HOURS * 3600:
+        return with_derived(seed)  # a fresh deploy serves the committed snapshot: same data everywhere, no NASA round trip
+    fallback = cached or seed
     if fallback and not force_refresh and time.time() - _last_refresh_failure < _REFRESH_RETRY_SECONDS:
         return with_derived(fallback)
     try:
