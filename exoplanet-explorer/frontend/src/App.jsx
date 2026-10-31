@@ -2,7 +2,6 @@ import { Suspense, lazy } from 'react'
 import { Navigate, Routes, Route, useMatch } from 'react-router-dom'
 import TopBar from './components/TopBar.jsx'
 import Explorer from './pages/Explorer.jsx'
-import SpaceBackdrop from './components/SpaceBackdrop.jsx'
 
 const Compare = lazy(() => import('./pages/Compare.jsx'))
 const Astronomer = lazy(() => import('./pages/Astronomer.jsx'))
@@ -17,8 +16,6 @@ export default function App() {
   const onGame = !!useMatch('/game')
   return (
     <UniverseSettingsProvider>
-
-      {!onExplorer && !onGame && <SpaceBackdrop />}
       <div className="relative z-10 min-h-screen overflow-x-hidden" style={onExplorer || onGame ? undefined : { paddingTop: 'calc(var(--topbar-h, 5rem) + 0.25rem)' }}>
         {!onGame && <TopBar />}
         <Suspense fallback={null}>
