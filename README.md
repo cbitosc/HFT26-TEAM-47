@@ -22,7 +22,7 @@
 | # | Name | Email | Institution |
 | :--- | :--- | :--- | :--- |
 | 1 | Misha Shaik | misha.shaik135@gmail.com | MJCET |
-| 2 | Zainab Ahmed | 160423748001@gmail.com | MJCET |
+| 2 | Zainab Ahmed | zainabahmedshah22@gmail.com | MJCET |
 | 3 | Shaik Abdul Raheem Amanuddin | amanshaik0300@gmail.com | MJCET |
 | 4 | Mohammed Ishaq Ali | aman84sphs@gmail.com | MJCET |
 
