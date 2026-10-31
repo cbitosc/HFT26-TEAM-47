@@ -32,19 +32,19 @@ export default function TopBar() {
 
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-40 bg-gradient-to-b from-[#02040b]/85 via-[#02040b]/40 to-transparent">
-      <div ref={bar} className="pointer-events-auto relative mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-x-3 gap-y-2 px-[var(--edge)] py-4">
-        <Link to="/" className="flex min-w-0 items-center gap-3" aria-label="exoverse: back to the Milky Way">
+      <div ref={bar} className="pointer-events-auto relative mx-auto grid max-w-[1600px] grid-cols-[1fr_auto] items-center gap-x-3 gap-y-2 px-[var(--edge)] py-3 sm:grid-cols-[1fr_auto_1fr]">
+        <Link to="/" className="flex min-w-0 items-center gap-3 justify-self-start" aria-label="exoverse: back to the Milky Way">
           <span className="grid h-10 w-10 flex-none place-items-center rounded-[14px] bg-gradient-to-br from-sky-200 via-sky-400 to-violet-500 shadow-[0_4px_16px_rgba(90,120,255,0.35),inset_0_1px_0_rgba(255,255,255,0.6)]">
             <Sparkle className="h-[18px] w-[18px] text-[#0b1530]" strokeWidth={2} aria-hidden />
           </span>
-          <span className="text-[32px] font-bold leading-none tracking-tight">exoverse</span>
+          <span className="text-2xl font-bold leading-none tracking-tight lg:text-[32px]">exoverse</span>
         </Link>
 
-        <div className="order-last h-10 w-full sm:absolute sm:left-1/2 sm:top-4 sm:order-none sm:w-[460px] sm:-translate-x-1/2">
+        <div className="order-last col-span-2 h-10 w-full sm:order-none sm:col-span-1 sm:w-[clamp(240px,36vw,460px)]">
           <IslandNav label="Pages" items={PAGES} active={page} onSelect={(to) => navigate(to)} />
         </div>
 
-        {explorer && <div className="relative">
+        {explorer && <div className="relative justify-self-end">
           <button className="glass-btn px-4 py-2 text-xs" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-haspopup="dialog">
             <SlidersHorizontal className="h-3.5 w-3.5" /> Controls
           </button>
